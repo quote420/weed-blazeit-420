@@ -260,12 +260,12 @@ AddEntity("Drug lab", {
 	allowed = {TEAM_GANG, TEAM_MOB}
 })
 
-AddEntity("Niggium Printer", {
-	ent = "niggium_printer",
+AddEntity("Combine Tech Printer", {
+	ent = "comb_printer",
 	model = "models/props_c17/consolebox01a.mdl",
 	price = 4200,
-	max = 5,
-	cmd = "/buyniggerprinter"
+	max = 3,
+	cmd = "/buyctechprinter"
 })
 
 AddEntity("Money Printer", {
@@ -297,9 +297,18 @@ AddEntity("Microwave", {
 AddEntity("Armor Battery", {
 	ent = "item_battery",
 	model = "models/Items/battery.mdl",
-	price = 15,
+	price = 10,
 	max = 10,
 	cmd = "/buybattery",
+	allowed = {TEAM_MEDIC, TEAM_CHIEF, TEAM_MILI, TEAM_SNIPER}
+})
+
+AddEntity("Armor Suit", {
+	ent = "rp_armor100",
+	model = "models/Items/hevsuit.mdl",
+	price = 100,
+	max = 1,
+	cmd = "/buyarmor",
 	allowed = {TEAM_MEDIC, TEAM_CHIEF, TEAM_MILI, TEAM_SNIPER}
 })
 
