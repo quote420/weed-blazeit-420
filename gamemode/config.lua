@@ -178,7 +178,9 @@ GM.Config.maxcopsalary					= 100
 -- maxdoors - Sets the max amount of doors one can own.
 GM.Config.maxdoors						= 60
 -- maxdrugs - Sets max drugs.
-GM.Config.maxdrugs						= 2
+GM.Config.maxdrugs						= 20
+-- maxsdrugs - Sets max stable drugs.
+GM.Config.maxsdrugs						= 5
 -- maxfoods - Sets the max food cartons per Microwave owner.
 GM.Config.maxfoods						= 2
 -- maxlawboards - The maximum number of law boards the mayor can place.

@@ -255,6 +255,15 @@ AddEntity("Drug lab", {
 	ent = "drug_lab",
 	model = "models/props_lab/crematorcase.mdl",
 	price = 400,
+	max = 6,
+	cmd = "/buydruglab",
+	allowed = {TEAM_GANG, TEAM_MOB}
+})
+
+AddEntity("Stable Drug Lab", {
+	ent = "stable_drug_lab",
+	model = "models/props_lab/crematorcase.mdl",
+	price = 1000,
 	max = 3,
 	cmd = "/buydruglab",
 	allowed = {TEAM_GANG, TEAM_MOB}
