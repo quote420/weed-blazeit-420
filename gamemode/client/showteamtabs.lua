@@ -529,6 +529,10 @@ function GM:JobsTab()
 					nodude = false
 				end
 
+				if v.hidden = true then
+					nodude = false
+				end
+
 				if nodude then
 					local weps = "no extra weapons"
 					if #v.weapons > 0 then
