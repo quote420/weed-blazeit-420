@@ -106,8 +106,10 @@ function SWEP:PrimaryAttack()
 	trace.Entity:SetPos(trace.Entity:GetPos())
 	local phys = trace.Entity:GetPhysicsObject()
 	phys:EnableMotion(false)
+	trace.Entity.OldCollisionGroup = trace.Entity:GetCollisionGroup()
 	trace.Entity:SetCollisionGroup(COLLISION_GROUP_WORLD)
 	trace.Entity.PhysgunPickup = false
+	trace.Entity.OldPlayerUse = trace.Entity.PlayerUse
 	trace.Entity.PlayerUse = false
 end
 
@@ -286,7 +288,7 @@ elseif SERVER then
 		local tr = util.TraceLine(trace)
 		ent:SetMoveType(MOVETYPE_VPHYSICS)
 		ent:SetNoDraw(false)
-		ent:SetCollisionGroup(COLLISION_GROUP_WORLD)
+		ent:SetCollisionGroup(ent.OldCollisionGroup)
 		ent:SetPos(tr.HitPos)
 		ent:SetSolid(SOLID_VPHYSICS)
 		local phys = ent:GetPhysicsObject()
@@ -299,7 +301,8 @@ elseif SERVER then
 			umsg.Short(ent:EntIndex())
 		umsg.End()
 		ent.PhysgunPickup = nil
-		ent.PlayerUse = nil
+		ent.PlayerUse = ent.OldPlayerUse
+		ent.OldPlayerUse = nil
 	end
 
 	hook.Add("PlayerDeath", "DropPocketItems", function(ply)

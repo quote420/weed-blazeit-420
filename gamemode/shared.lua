@@ -227,7 +227,10 @@ TEAM_MEDIC = AddExtraTeam("Medic", {
 	hasLicense = false
 })
 
+<<<<<<< HEAD
 /* The cook is useless without hungermod on
+=======
+>>>>>>> origin/master
 TEAM_COOK = AddExtraTeam("Cook", {
 	color = Color(238, 99, 99, 255),
 	model = "models/player/mossman.mdl",
