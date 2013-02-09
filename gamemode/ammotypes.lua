@@ -28,10 +28,10 @@ Examples are below!
 ---------------------------------------------------------------------------*/
 
 -- Pistol ammo type. Used by p228, desert eagle and all other pistols
-GM:AddAmmoType("pistol", "Pistol ammo", "models/Items/BoxSRounds.mdl", 30, 24)
+GM:AddAmmoType("pistol", "Pistol ammo", "models/Items/BoxSRounds.mdl", 30, 96)
 
 -- Buckshot ammo, used by the shotguns
-GM:AddAmmoType("buckshot", "Shotgun ammo", "models/Items/BoxBuckshot.mdl", 50, 8)
+GM:AddAmmoType("buckshot", "Shotgun ammo", "models/Items/BoxBuckshot.mdl", 50, 32)
 
 -- Rifle ammo, usually used by assault rifles
-GM:AddAmmoType("smg1", "Rifle ammo", "models/Items/BoxMRounds.mdl", 80, 30)
+GM:AddAmmoType("smg1", "Rifle ammo", "models/Items/BoxMRounds.mdl", 80, 120)

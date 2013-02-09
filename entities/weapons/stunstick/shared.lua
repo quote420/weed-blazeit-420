@@ -44,9 +44,6 @@ SWEP.Secondary.Ammo = ""
 
 function SWEP:Deploy()
 	if CLIENT or not IsValid(self:GetOwner()) then return end
-	self:SetColor(Color(0,0,255,255))
-	self:SetMaterial("models/shiny")
-	SendUserMessage("StunStickColour", self:GetOwner(), 0,0,255, "models/shiny")
 	return true
 end
 

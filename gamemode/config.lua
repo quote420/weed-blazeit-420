@@ -8,13 +8,13 @@ GM.Config.voice3D						= true
 -- adminnpcs - Whether or not NPCs should be admin only.
 GM.Config.adminnpcs 					= true
 -- AdminsCopWeapons - Enable/disable admins spawning with cop weapons
-GM.Config.AdminsCopWeapons 				= true
+GM.Config.AdminsCopWeapons 				= false
 -- adminsents - Whether or not SENTs should be admin only.
 GM.Config.adminsents 					= true
 -- adminvehicles - Whether or not Vehicles should be admin only.
 GM.Config.adminvehicles 				= true
 -- advertisements - Enable/Disable chatprint advertisements.
-GM.Config.advertisements 				= true
+GM.Config.advertisements 				= false
 -- allow people getting their own custom jobs
 GM.Config.allowjobswitch 				= true
 -- allowrpnames - Allow Players to Set their RP names using the /rpname command.
@@ -220,13 +220,13 @@ GM.Config.quakechance					= 4000
 -- respawntime - Minimum amount of seconds a player has to wait before respawning.
 GM.Config.respawntime					= 1
 -- runspeed - Sets the max running speed.
-GM.Config.runspeed						= 240
+GM.Config.runspeed						= 320
 -- searchtime - Number of seconds for which a search warrant is valid.
 GM.Config.searchtime					= 30
 -- ShipmentSpawnTime - Antispam time between spawning shipments.
-GM.Config.ShipmentSpamTime				= 3
+GM.Config.ShipmentSpamTime				= 1
 -- shipmenttime - The number of seconds it takes for a shipment to spawn.
-GM.Config.shipmentspawntime				= 10
+GM.Config.shipmentspawntime				= 0
 -- startinghealth - the health when you spawn.
 GM.Config.startinghealth				= 100
 -- startingmoney - your wallet when you join for the first time.

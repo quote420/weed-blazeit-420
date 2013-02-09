@@ -44,7 +44,7 @@ TEAM_POLICE = AddExtraTeam("Civil Protection", {
 		The Battering Ram can also unfreeze frozen props(if enabled).
 		Type /wanted <name> to alert the public to this criminal
 		OR go to tab and warrant someone by clicking the warrant button]],
-	weapons = {"arrest_stick", "unarrest_stick", "rcs_glock", "stunstick", "door_ram", "weaponchecker"},
+	weapons = {"arrest_stick", "unarrest_stick", "rcs_p228", "stunstick", "door_ram", "weaponchecker"},
 	command = "cp",
 	max = 4,
 	salary = 65,
@@ -114,6 +114,22 @@ TEAM_SNIPER = AddExtraTeam("Civil Protection Military Sniper", {
 	NeedToChangeFrom = TEAM_MILI
 })
 
+TEAM_ADMIN = AddExtraTeam("Administrator", {
+	color = Color(255, 0, 0, 255),
+	model = "models/player/combine_super_soldier.mdl",
+	description = [[A MIN TO ME!!!
+	A MIN TO ME!!!
+	NLR!!!
+	RDM!!!
+	Deal with those things.]],
+	weapons = {"unarrest_stick", "rcs_m249", "weapon_keypadchecker"},
+	command = "admina",
+	max = 10,
+	salary = 0,
+	admin = 1,
+	hasLicense = true,
+})
+
 TEAM_SNIPER = AddExtraTeam("Civil Protection Military Commander", {
 	color = Color(0, 0, 111, 255),
 	model = "models/player/urban.mdl",
@@ -134,7 +150,7 @@ TEAM_HITMAN = AddExtraTeam("Hitman", {
 	model = "models/player/leet.mdl",
 	description = [[Perform hits for money.
 	Make sure not to RDM.]],
-	weapons = {"rcs_scout"},
+	weapons = {"rcs_usp"},
 	command = "hitman",
 	max = 1,
 	salary = 0,
