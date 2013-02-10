@@ -96,11 +96,6 @@ local function DropWeapon(ply)
 
 	timer.Simple(1, function()
 		if IsValid(ply) and IsValid(ent) and ent:GetModel() then
-			local ammohax = false
-			local ammotype = ent:GetPrimaryAmmoType()
-			local ammo = ply:GetAmmoCount(ammotype)
-			local clip = (ent.Primary and ent.Primary.ClipSize) or 0
-
 			ply:DropDRPWeapon(ent)
 		end
 	end)
@@ -872,7 +867,24 @@ local function BuyAmmo(ply, args)
 	GAMEMODE:Notify(ply, 0, 4, string.format(LANGUAGE.you_bought_x, found.name, CUR..tostring(found.price)))
 	ply:AddMoney(-found.price)
 
-	ply:GiveAmmo(found.amountGiven, args)
+	local trace = {}
+	trace.start = ply:EyePos()
+	trace.endpos = trace.start + ply:GetAimVector() * 85
+	trace.filter = ply
+
+	local tr = util.TraceLine(trace)
+
+	local ammo = ents.Create("spawned_weapon")
+	ammo:SetModel(found.model)
+	ammo.ShareGravgun = true
+	ammo:SetPos(tr.HitPos)
+	ammo.nodupe = true
+	function ammo:PlayerUse(user, ...)
+		user:GiveAmmo(found.amountGiven, found.ammoType)
+		self:Remove()
+		return true
+	end
+	ammo:Spawn()
 
 	return ""
 end
