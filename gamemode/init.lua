@@ -39,6 +39,25 @@ util.AddNetworkString("DarkRP_DoorData")
 util.AddNetworkString("FAdmin_retrievebans")
 util.AddNetworkString("DarkRP_keypadData")
 
+-- Falco's prop protection
+local BlockedModelsExist = sql.QueryValue("SELECT COUNT(*) FROM FPP_BLOCKEDMODELS;") ~= false
+if not BlockedModelsExist then
+	sql.Query("CREATE TABLE IF NOT EXISTS FPP_BLOCKEDMODELS('model' TEXT NOT NULL PRIMARY KEY);")
+	include("fpp/FPP_DefaultBlockedModels.lua") -- Load the default blocked models
+end
+AddCSLuaFile("fpp/sh_CPPI.lua")
+AddCSLuaFile("fpp/sh_settings.lua")
+AddCSLuaFile("fpp/client/FPP_Menu.lua")
+AddCSLuaFile("fpp/client/FPP_HUD.lua")
+AddCSLuaFile("fpp/client/FPP_Buddies.lua")
+AddCSLuaFile("shared/fadmin_darkrp.lua")
+
+include("fpp/sh_settings.lua")
+include("fpp/sh_CPPI.lua")
+include("fpp/server/FPP_Settings.lua")
+include("fpp/server/FPP_Core.lua")
+include("fpp/server/FPP_Antispam.lua")
+
 AddCSLuaFile("addentities.lua")
 AddCSLuaFile("shared.lua")
 AddCSLuaFile("ammotypes.lua")
@@ -102,24 +121,6 @@ include("server/util.lua")
 include("server/votes.lua")
 
 
--- Falco's prop protection
-local BlockedModelsExist = sql.QueryValue("SELECT COUNT(*) FROM FPP_BLOCKEDMODELS;") ~= false
-if not BlockedModelsExist then
-	sql.Query("CREATE TABLE IF NOT EXISTS FPP_BLOCKEDMODELS('model' TEXT NOT NULL PRIMARY KEY);")
-	include("fpp/FPP_DefaultBlockedModels.lua") -- Load the default blocked models
-end
-AddCSLuaFile("fpp/sh_CPPI.lua")
-AddCSLuaFile("fpp/sh_settings.lua")
-AddCSLuaFile("fpp/client/FPP_Menu.lua")
-AddCSLuaFile("fpp/client/FPP_HUD.lua")
-AddCSLuaFile("fpp/client/FPP_Buddies.lua")
-AddCSLuaFile("shared/fadmin_darkrp.lua")
-
-include("fpp/sh_settings.lua")
-include("fpp/sh_CPPI.lua")
-include("fpp/server/FPP_Settings.lua")
-include("fpp/server/FPP_Core.lua")
-include("fpp/server/FPP_Antispam.lua")
 include("shared/fadmin_darkrp.lua")
 
 /*---------------------------------------------------------------------------
@@ -158,6 +159,28 @@ local function GetAvailableVehicles(ply)
 	end
 end
 concommand.Add("rp_getvehicles_sv", GetAvailableVehicles)
+
+/*---------------------------------------------------------------------------
+DarkRP blocked entities
+---------------------------------------------------------------------------*/
+local blockTypes = {"Physgun1", "Spawning1", "Toolgun1"}
+FPP.AddDefaultBlocked(blockTypes, "chatindicator")
+FPP.AddDefaultBlocked(blockTypes, "darkrp_cheque")
+FPP.AddDefaultBlocked(blockTypes, "darkp_console")
+FPP.AddDefaultBlocked(blockTypes, "drug")
+FPP.AddDefaultBlocked(blockTypes, "drug_lab")
+FPP.AddDefaultBlocked(blockTypes, "fadmin_jail")
+FPP.AddDefaultBlocked(blockTypes, "food")
+FPP.AddDefaultBlocked(blockTypes, "gunlab")
+FPP.AddDefaultBlocked(blockTypes, "letter")
+FPP.AddDefaultBlocked(blockTypes, "meteor")
+FPP.AddDefaultBlocked(blockTypes, "spawned_food")
+FPP.AddDefaultBlocked(blockTypes, "spawned_money")
+FPP.AddDefaultBlocked(blockTypes, "spawned_shipment")
+FPP.AddDefaultBlocked(blockTypes, "spawned_weapon")
+
+FPP.AddDefaultBlocked("Spawning1", "darkrp_laws")
+
 
 /*---------------------------------------------------------------------------
 Registering numpad data

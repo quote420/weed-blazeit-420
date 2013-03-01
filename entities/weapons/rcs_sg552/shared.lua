@@ -7,12 +7,11 @@ if (SERVER) then
 	SWEP.Weight				= 5
 	SWEP.AutoSwitchTo		= false
 	SWEP.AutoSwitchFrom		= false
-	SWEP.HoldType			= "ar2"
 
 end
 
 if ( CLIENT ) then
-	SWEP.PrintName			= "SIG SG 552"	
+	SWEP.PrintName			= "SG552"	
 	SWEP.Author				= "cheesylard"
 	SWEP.DrawAmmo			= true
 	SWEP.DrawCrosshair		= false
@@ -21,7 +20,7 @@ if ( CLIENT ) then
 	SWEP.CSMuzzleFlashes	= true
 	
 	
-	SWEP.SlotPos			= 1
+	SWEP.Slot				= 2
 	SWEP.IconLetter			= "A"
 		
 	SWEP.NameOfSWEP			= "rcs_sg552" --always make this the name of the folder the SWEP is in.
@@ -30,6 +29,7 @@ end
 
 SWEP.Category				= "RealCS"
 SWEP.Base					= "rcs_base_1scope"
+SWEP.HoldType				= "ar2"
 
 SWEP.Spawnable				= true
 SWEP.AdminSpawnable			= true

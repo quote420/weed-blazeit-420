@@ -4,7 +4,6 @@
 if (SERVER) then
 
 	AddCSLuaFile( "shared.lua" )
-	SWEP.HoldType			= "pistol"
 
 end
 -- self.Primary.Automatic = true
@@ -24,6 +23,7 @@ end
 
 SWEP.Category				= "RealCS"
 SWEP.Base					= "rcs_base_silencer_rifle"
+SWEP.HoldType				= "pistol"
 
 SWEP.Spawnable				= false
 SWEP.AdminSpawnable			= false

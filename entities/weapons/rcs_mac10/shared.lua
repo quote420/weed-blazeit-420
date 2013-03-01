@@ -6,14 +6,12 @@ if (SERVER) then
 	AddCSLuaFile( "shared.lua" )
 	SWEP.Weight				= 5
 
-	SWEP.HoldType			= "ar2"
-
 end
 
 if ( CLIENT ) then
-	SWEP.PrintName			= "MAC-10"	
+	SWEP.PrintName			= "MAC10"	
 	SWEP.Author				= "cheesylard"
-	SWEP.SlotPos			= 1
+	SWEP.Slot				= 2
 	SWEP.IconLetter			= "l"
 		
 	SWEP.NameOfSWEP			= "rcs_mac10" --always make this the name of the folder the SWEP is in.
@@ -22,6 +20,7 @@ end
 
 SWEP.Category				= "RealCS"
 SWEP.Base					= "rcs_base"
+SWEP.HoldType				= "pistol"
 
 SWEP.Spawnable				= true
 SWEP.AdminSpawnable			= true

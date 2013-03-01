@@ -7,12 +7,11 @@ if (SERVER) then
 	SWEP.Weight				= 5
 	SWEP.AutoSwitchTo		= false
 	SWEP.AutoSwitchFrom		= false
-	SWEP.HoldType			= "pistol"
 
 end
 -- self.Primary.Automatic = true
 if ( CLIENT ) then
-	SWEP.PrintName			= "HK U.S.P."	
+	SWEP.PrintName			= "USP"	
 	SWEP.Author				= "cheesylard"
 	SWEP.ViewModelFlip		= true
 	SWEP.CSMuzzleFlashes	= true
@@ -27,6 +26,7 @@ end
 
 SWEP.Category				= "RealCS"
 SWEP.Base					= "rcs_base_silencer_pistol"
+SWEP.HoldType				= "pistol"
 
 SWEP.Spawnable				= true
 SWEP.AdminSpawnable			= true

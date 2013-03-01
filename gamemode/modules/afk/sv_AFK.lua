@@ -1,12 +1,6 @@
 -- How to use:
--- Use rp_afk_demote 1 to enable AFK mode.
--- Use rp_afk_demotetime to set the time someone has to be AFK before they are demoted.
 -- If a player uses /afk, they go into AFK mode, they will not be autodemoted and their salary is set to $0 (you can still be killed/vote demoted though!).
 -- If a player does not use /afk, and they don't do anything for the demote time specified, they will be automatically demoted to hobo.
-
-AddCSLuaFile(GM.FolderName.."/gamemode/modules/afk/cl_afk.lua")
-GM.Config.afkdemote = false
-GM.Config.afkdemotetime = 600
 
 local function AFKDemote(ply)
 	local rpname = ply.DarkRPVars.rpname
@@ -46,8 +40,7 @@ local function SetAFK(ply)
 		for _,v in pairs(ents.FindByClass("prop_physics")) do npc:AddEntityRelationship(v, D_LI, 99) end
 		for _,v in pairs(player.GetAll()) do if v == ply then npc:AddEntityRelationship(v, D_FR, 99) npc:SetEnemy(v) end end
 		ply.AFKNpc = npc
-		npc.Owner = ply
-		npc.OwnerID = ply:SteamID()
+		npc:CPPISetOwner(ply)
 		npc.AFKPly = ply
 		if IsValid(ply:GetActiveWeapon()) then npc:Give(ply:GetActiveWeapon():GetClass()) end
 		npc:SetHealth(ply:Health())

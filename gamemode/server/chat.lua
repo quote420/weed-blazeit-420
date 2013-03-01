@@ -1,13 +1,13 @@
 local ChatCommands = {}
 
-function AddChatCommand(cmd, callback, prefixconst)
+function AddChatCommand(cmd, callback, delay)
 	for k,v in pairs(ChatCommands) do
 		if cmd == v.cmd then return end
 	end
 	ChatCommands[string.lower(cmd)] = {
 		cmd = cmd,
 		callback = callback,
-		prefixconst = prefixconst,
+		delay = delay
 	}
 end
 
@@ -49,12 +49,12 @@ local function RP_ActualDoSay(ply, text, callback)
 	return ""
 end
 
-local otherhooks = {}
+GM.OldChatHooks = GM.OldChatHooks or {}
 function GM:PlayerSay(ply, text, teamonly, dead) -- We will make the old hooks run AFTER DarkRP's playersay has been run.
 	local text2 = (not teamonly and "" or "/g ") .. text
 	local callback
 
-	for k,v in SortedPairs(otherhooks, false) do
+	for k,v in SortedPairs(self.OldChatHooks, false) do
 		if type(v) == "function" then
 			text2 = v(ply, text, teamonly, dead) or text2
 		end
@@ -64,7 +64,7 @@ function GM:PlayerSay(ply, text, teamonly, dead) -- We will make the old hooks r
 	if tostring(text2) == " " then text2, callback = callback, text2 end
 
 	if game.IsDedicated() then
-		ServerLog("\""..ply:Nick().."<"..ply:UserID()..">" .."<"..ply:SteamID()..">".."<"..team.GetName( ply:Team() )..">\" say \""..text.. "\"\n" .. "\n")
+		ServerLog("\""..ply:Nick().."<"..ply:UserID()..">" .."<"..ply:SteamID()..">".."<"..team.GetName(ply:Team())..">\" say \""..text.. "\"\n" .. "\n")
 	end
 
 	if DoSayFunc then DoSayFunc(text2) return "" end
@@ -77,12 +77,34 @@ end
 function GM:ReplaceChatHooks()
 	if not hook.GetTable().PlayerSay then return end
 	for k,v in pairs(hook.GetTable().PlayerSay) do -- Remove all PlayerSay hooks, they all interfere with DarkRP's PlayerSay
-		otherhooks[k] = v
+		self.OldChatHooks[k] = v
 		hook.Remove("PlayerSay", k)
 	end
-	for a,b in pairs(otherhooks) do
+	for a,b in pairs(self.OldChatHooks) do
 		if type(b) ~= "function" then
-			otherhooks[a] = nil
+			self.OldChatHooks[a] = nil
 		end
 	end
 end
+
+function ConCommand(ply, _, args)
+	if not args[1] then for k,v in pairs(ChatCommands) do print(k) end return end
+
+	local cmd = string.lower(args[1])
+	local arg = table.concat(args, ' ', 2)
+	local tbl = ChatCommands[cmd]
+	local time = CurTime()
+
+	if not tbl then return end
+
+	ply.DrpCommandDelays = ply.DrpCommandDelays or {}
+
+	if tbl.delay and ply.DrpCommandDelays[cmd] and ply.DrpCommandDelays[cmd] > time - tbl.delay then
+		return
+	end
+
+	ply.DrpCommandDelays[cmd] = time
+
+	tbl.callback(ply, arg)
+end
+concommand.Add("darkrp", ConCommand)

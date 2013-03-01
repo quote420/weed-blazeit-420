@@ -7,7 +7,6 @@ if (SERVER) then --the init.lua stuff goes in here
    SWEP.Weight = 5
    SWEP.AutoSwitchTo = false
    SWEP.AutoSwitchFrom = false
-   SWEP.HoldType = "melee"
 
 end
 
@@ -29,6 +28,7 @@ if (CLIENT) then --the cl_init.lua stuff goes in here
 
 end
 
+SWEP.HoldType = "melee"
 SWEP.Primary.NumNades = 1 --number of throwable grenades at your disposal
 SWEP.Grenade = "rcs_thrownhegrenade" --self explanitory
 

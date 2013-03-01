@@ -7,14 +7,13 @@ if (SERVER) then
 	SWEP.Weight				= 5
 	SWEP.AutoSwitchTo		= false
 	SWEP.AutoSwitchFrom		= false
-	SWEP.HoldType			= "crossbow"
 
 end
 
 if (CLIENT) then
 
 
-	SWEP.PrintName			= "AI AWM (AWP)"	
+	SWEP.PrintName			= "AWP"	
 	SWEP.Author				= "cheesylard"
 	SWEP.ViewModelFlip		= true
 	SWEP.CSMuzzleFlashes	= true
@@ -22,7 +21,7 @@ if (CLIENT) then
 	SWEP.Description		=    "Accuracy International Arctic Warfare Magnum "
 							  .. "sniper rifle (Yeah, I didn't put that in the "
 							  .. "name, because it's a really long)"
-	SWEP.SlotPos			= 1
+	SWEP.Slot				= 3
 	SWEP.IconLetter			= "r"
 	SWEP.NameOfSWEP			= "rcs_awp" --always make this the name of the folder the SWEP is in. 
 
@@ -33,6 +32,7 @@ end
 
 SWEP.Category				= "RealCS"
 SWEP.Base					= "rcs_base_bsnip"
+SWEP.HoldType				= "crossbow"
 
 SWEP.Spawnable				= true
 SWEP.AdminSpawnable			= true

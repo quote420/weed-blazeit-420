@@ -6,12 +6,10 @@ if (SERVER) then
 	AddCSLuaFile( "shared.lua" )
 	SWEP.Weight				= 5
 
-	SWEP.HoldType			= "357"
-
 end
 
 if ( CLIENT ) then
-	SWEP.PrintName			= "Desert Eagle (magnum)"	
+	SWEP.PrintName			= "Desert Eagle"	
 	SWEP.Author				= "cheesylard"
 	SWEP.SlotPos			= 2
 	SWEP.Slot				= 1
@@ -22,6 +20,7 @@ end
 
 SWEP.Category				= "RealCS"
 SWEP.Base					= "rcs_base_pistol"
+SWEP.HoldType				= "pistol"
 
 SWEP.Spawnable				= true
 SWEP.AdminSpawnable			= true

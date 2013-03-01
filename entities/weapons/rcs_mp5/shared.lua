@@ -6,20 +6,19 @@ if (SERVER) then
 	AddCSLuaFile( "shared.lua" )
 	SWEP.Weight				= 5
 
-	SWEP.HoldType			= "ar2"
-
 end
 
 if ( CLIENT ) then
-	SWEP.PrintName			= "Koch MP5"	
+	SWEP.PrintName			= "MP5"	
 	SWEP.Author				= "cheesylard"
-	SWEP.SlotPos			= 1
+	SWEP.Slot				= 2
 	SWEP.IconLetter			= "x"
 		
 	SWEP.NameOfSWEP			= "rcs_mp5" --always make this the name of the folder the SWEP is in.
 	killicon.AddFont( SWEP.NameOfSWEP, "CSKillIcons", SWEP.IconLetter, Color( 255, 80, 0, 255 ) )
 end
 
+SWEP.HoldType				= "ar2"
 SWEP.Category				= "RealCS"
 SWEP.Base					= "rcs_base"
 

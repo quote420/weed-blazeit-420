@@ -1,6 +1,6 @@
 ENT.Type = "anim"
 ENT.Base = "base_gmodentity"
-ENT.PrintName = "Niggium Printer"
+ENT.PrintName = "Quotium Printer"
 ENT.Author = "Render Case and philxyz"
 ENT.Spawnable = false
 ENT.AdminSpawnable = false

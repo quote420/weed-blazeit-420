@@ -6,14 +6,12 @@ if (SERVER) then
 	AddCSLuaFile( "shared.lua" )
 	SWEP.Weight				= 5
 
-	SWEP.HoldType			= "ar2"
-
 end
 
 if ( CLIENT ) then
 	SWEP.PrintName			= "M249"	
 	SWEP.Author				= "cheesylard"
-	SWEP.SlotPos			= 1
+	SWEP.Slot				= 3
 	SWEP.IconLetter			= "z"
 	SWEP.ViewModelFlip		= false
 		
@@ -23,6 +21,7 @@ end
 
 SWEP.Category				= "RealCS"
 SWEP.Base					= "rcs_base"
+SWEP.HoldType				= "ar2"
 
 SWEP.Spawnable				= true
 SWEP.AdminSpawnable			= true

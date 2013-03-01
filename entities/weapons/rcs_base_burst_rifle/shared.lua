@@ -7,7 +7,6 @@
 if (SERVER) then
 
 	AddCSLuaFile( "shared.lua" )
-	SWEP.HoldType			= "ar2"
 
 end
 
@@ -22,7 +21,7 @@ if ( CLIENT ) then
 	SWEP.IconLetter			= "t"
 	killicon.AddFont( SWEP.NameOfSWEP, "CSKillIcons", SWEP.IconLetter, Color( 255, 80, 0, 255 ) )
 end
-
+SWEP.HoldType				= "ar2"
 SWEP.Category				= "RealCS" --duh
 SWEP.Base					= "rcs_base_burst_pistol" --dont mess with this unless if you want to royally screw this gun up
 

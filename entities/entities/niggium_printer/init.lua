@@ -8,8 +8,7 @@ ENT.SeizeReward = 950
 local PrintMore
 function ENT:Initialize()
 	self:SetModel("models/props_c17/consolebox01a.mdl")
-	self:SetMaterial("concrete/concretewall071a")
-	self:SetColor(Color(0,0,0,255))
+	self:SetColor(Color(0,255,0,255))
 	self:PhysicsInit(SOLID_VPHYSICS)
 	self:SetMoveType(MOVETYPE_VPHYSICS)
 	self:SetSolid(SOLID_VPHYSICS)
@@ -17,57 +16,8 @@ function ENT:Initialize()
 	phys:Wake()
 
 	self.sparking = false
-	self.damage = 100
 	self.IsMoneyPrinter = true
-	timer.Simple(math.random(1, 5), function() PrintMore(self) end)
-end
-
-function ENT:OnTakeDamage(dmg)
-	if self.burningup then return end
-
-	self.damage = (self.damage or 100) - dmg:GetDamage()
-	if self.damage <= 0 then
-		local rnd = math.random(1, 10)
-		if rnd < 2 then
-			self:BurstIntoFlames()
-		else
-			self:Destruct()
-			self:Remove()
-		end
-	end
-end
-
-function ENT:Destruct()
-	local vPoint = self:GetPos()
-	local effectdata = EffectData()
-	effectdata:SetStart(vPoint)
-	effectdata:SetOrigin(vPoint)
-	effectdata:SetScale(1)
-	util.Effect("Explosion", effectdata)
-	GAMEMODE:Notify(self:Getowning_ent(), 1, 4, "Your money printer has exploded!")
-end
-
-function ENT:BurstIntoFlames()
-	GAMEMODE:Notify(self:Getowning_ent(), 0, 4, "Your money printer is overheating!")
-	self.burningup = true
-	local burntime = math.random(8, 18)
-	self:Ignite(burntime, 0)
-	timer.Simple(burntime, function() self:Fireball() end)
-end
-
-function ENT:Fireball()
-	if not self:IsOnFire() then self.burningup = false return end
-	local dist = math.random(20, 280) -- Explosion radius
-	self:Destruct()
-	for k, v in pairs(ents.FindInSphere(self:GetPos(), dist)) do
-		if not v:IsPlayer() and not v:IsWeapon() and v:GetClass() ~= "predicted_viewmodel" and not v.IsMoneyPrinter then
-			v:Ignite(math.random(5, 22), 0)
-		elseif v:IsPlayer() then
-			local distance = v:GetPos():Distance(self:GetPos())
-			v:TakeDamage(distance / dist * 100, self, self)
-		end
-	end
-	self:Remove()
+	timer.Simple(math.random(60, 600), function() PrintMore(self) end)
 end
 
 PrintMore = function(ent)
@@ -84,15 +34,14 @@ function ENT:CreateMoneybag()
 	if not IsValid(self) or self:IsOnFire() then return end
 
 	local MoneyPos = self:GetPos()
-/*	if math.random(1, 22) == 3 then self:BurstIntoFlames() end */
-	local amount = 420
+	local amount = 1000
 	if amount == 0 then
-		amount = 420
+		amount = 1000
 	end
 
 	DarkRPCreateMoneyBag(Vector(MoneyPos.x + 15, MoneyPos.y, MoneyPos.z + 15), amount)
 	self.sparking = false
-	timer.Simple(math.random(1, 5), function() PrintMore(self) end)
+	timer.Simple(math.random(60, 180), function() PrintMore(self) end)
 end
 
 function ENT:Think()

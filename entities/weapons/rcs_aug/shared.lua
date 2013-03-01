@@ -6,12 +6,11 @@ if (SERVER) then
 	SWEP.Weight				= 5
 	SWEP.AutoSwitchTo		= false
 	SWEP.AutoSwitchFrom		= false
-	SWEP.HoldType			= "ar2"
 
 end
 
 if ( CLIENT ) then
-	SWEP.PrintName			= "Steyr AUG"	
+	SWEP.PrintName			= "AUG"	
 	SWEP.Author				= "cheesylard"
 	SWEP.DrawAmmo			= true
 	SWEP.DrawCrosshair		= false
@@ -20,11 +19,12 @@ if ( CLIENT ) then
 	SWEP.CSMuzzleFlashes	= true
 	SWEP.NameOfSWEP			= "rcs_aug" --always make this the name of the folder the SWEP is in.
 	
-	SWEP.SlotPos			= 1
+	SWEP.Slot				= 2
 	SWEP.IconLetter			= "e"
 	killicon.AddFont( SWEP.NameOfSWEP, "CSKillIcons", SWEP.IconLetter, Color( 255, 80, 0, 255 ) )
 end
 
+SWEP.HoldType				= "ar2"
 SWEP.Category				= "RealCS"
 SWEP.Base					= "rcs_base_1scope"
 

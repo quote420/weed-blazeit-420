@@ -8,7 +8,6 @@ rp_languages.english = {
 	invalid_x = "Invalid %s! %s",
 
 	-- F1 menu
-	get_mod = "Get the mod at garrysmod.org!",
 	mouse_wheel_to_scroll = "Use mousewheel to scroll",
 
 	-- Money things:
@@ -216,38 +215,26 @@ rp_languages.english = {
 
 
 	-- Help!
-	cophelp = [[Things Cops need to know
-Please don't abuse your job
-When you arrest someone they are auto transported to jail.
-They are auto let out of jail after %d seconds
-Type /warrant [Nick|SteamID|Status ID] to set a search warrant for a player.
-Type /wanted [Nick|SteamID|Status ID] to alert everyone to a wanted suspect
-Type /unwanted [Nick|SteamID|Status ID] to clear the suspect
-Type /jailpos to set the jail position
-Type /cophelp to toggle this menu, /x to close it]],
+	cophelp = {
+	"Please don't abuse your job",
+	"When you arrest someone they are auto transported to jail.",
+	"They are auto let out of jail after some time",
+	"Type /warrant [Nick|SteamID|Status ID] to set a search warrant for a player.",
+	"Type /wanted [Nick|SteamID|Status ID] to alert everyone to a wanted suspect",
+	"Type /unwanted [Nick|SteamID|Status ID] to clear the suspect",
+	"Type /jailpos to set the jail position"},
 
-	mayorhelp = [[Type /warrant [Nick|SteamID|Status ID] to set a search warrant for a player.
-Type /wanted [Nick|SteamID|Status ID] to alert everyone to a wanted suspect.
-Type /unwanted [Nick|SteamID|Status ID] to clear the suspect.
-Type /lockdown to initiate a lockdown
-Type /unlockdown to end a lockdown
-Type /placelaws to place a screen containing the laws.
-Type /addlaw and /removelaw to edit the laws.
-Type /mayorhelp toggles this menu, /x closes it]],
+	mayorhelp = {"Type /warrant [Nick|SteamID|Status ID] to set a search warrant for a player.",
+	"Type /wanted [Nick|SteamID|Status ID] to alert everyone to a wanted suspect.",
+	"Type /unwanted [Nick|SteamID|Status ID] to clear the suspect.",
+	"Type /lockdown to initiate a lockdown",
+	"Type /unlockdown to end a lockdown",
+	"Type /placelaws to place a screen containing the laws.",
+	"Type /addlaw and /removelaw to edit the laws."},
 
-	adminhelp = [[/enablestorm Enables meteor storms
-/disablestorm Disables meteor storms
-You can change the price of weapons, jailtime, max gangsters, etc.
-To do this press F1 then scroll down and you will see all of the console commands
-If you edit the init.lua file you can save the vars.
-/jailpos sets the jailposition!
-/setspawn <team> - Enter teamname Ex. police, mayor, gangster
-/adminhelpmenu toggles this menu, /x closes it]],
-
-	bosshelp = [[As the mob boss, you decide what you want the other Gangsters to do.
-You get an Unarrest Stick which you can use to break people out of jail.
-/agenda <Message> (Sets the Gangsters' agenda. Use // to go to the next line.
-Typing /mobbosshelp toggles this menu, /x closes it]],
+	bosshelp = {"As the mob boss, you decide what you want the other Gangsters to do.",
+	"You get an Unarrest Stick which you can use to break people out of jail.",
+	"/agenda <Message> Sets the Gangsters' agenda. Use // to go to the next line."},
 
 	hints =
 	-- English hints:
@@ -286,7 +273,6 @@ Typing /mobbosshelp toggles this menu, /x closes it]],
 	"Type /gundealer - To become a Gun Dealer.",
 	"Type /buygunlab - to buy a Gun Lab.",
 	"Type /cook - to become a Cook.",
-	"Type /cophelp to see what you need to do as a cop.",
 	"Type /buyfood <Type> (e.g: /buyfood melon)",
 	"Type /rpname <Name> to choose your roleplay name.",
 	"Type /call <Name> to call someone!",
@@ -308,7 +294,6 @@ rp_languages.dutch = {
 	invalid_x = "Ongeldig(e) %s! %s",
 
 	-- F1 menu
-	get_mod = "Verkrijg DarkRP op garrysmod.org!",
 	mouse_wheel_to_scroll = "Gebruik je muiswiel om te scrollen",
 
 	-- Money things:
@@ -515,35 +500,24 @@ rp_languages.dutch = {
 
 
 	-- Help!
-	cophelp = [[Dingen die de politie moet weten:
-	Maak geen misbruik van je baan
-	Als je iemand arresteerd teleporteert hij naar de gevangenis
-	Ze komen daar weer uit na %d seconden
-	Typ /warrant [Nick|SteamID|Status ID] om een huiszoekingsbevel te verzoeken/krijgen
-	Typ /wanted [Nick|SteamID|Status ID] om iemand gezocht te maken
-	Typ /unwanted [Nick|SteamID|Status ID] om iemand niet meer gezocht te maken
-	Typ /jailpos om de jail positie te zetten
-	Typ /cophelp om dit menu tevoorschijn te halen, /x om het te sluiten]],
+	cophelp = {
+	"Maak geen misbruik van je baan",
+	"Als je iemand arresteerd teleporteert hij naar de gevangenis",
+	"Ze komen daar na een tijdje weer uit",
+	"Typ /warrant [Nick|SteamID|Status ID] om een huiszoekingsbevel te verzoeken/krijgen",
+	"Typ /wanted [Nick|SteamID|Status ID] om iemand gezocht te maken",
+	"Typ /unwanted [Nick|SteamID|Status ID] om iemand niet meer gezocht te maken",
+	"Typ /jailpos om de jail positie te zetten"},
 
-	mayorhelp = [[Typ /warrant [Nick|SteamID|Status ID] om een huiszoekingsbevel te krijgen
-	Typ /wanted [Nick|SteamID|Status ID] om iemand gezocht te maken
-	Typ /unwanted [Nick|SteamID|Status ID] om iemand niet meer gezocht te maken
-	Typ /lockdown om een lockdown te beginnen
-	Typ /unlockdown om een lockdown te eindigen
-	Typ /mayorhelp om dit menu tevoorschijn te halen, /x om het te sluiten]],
+	mayorhelp = {"Typ /warrant [Nick|SteamID|Status ID] om een huiszoekingsbevel te krijgen",
+	"Typ /wanted [Nick|SteamID|Status ID] om iemand gezocht te maken",
+	"Typ /unwanted [Nick|SteamID|Status ID] om iemand niet meer gezocht te maken",
+	"Typ /lockdown om een lockdown te beginnen",
+	"Typ /unlockdown om een lockdown te eindigen"},
 
-	adminhelp = [[/enablestorm zet meteoor stormen aan
-	/disablestorm zet meteoor stormen uit
-	Je kan de wapenprijzen, de jailtimer en de maximalen van dingen veranderen
-	om dit te doen druk je F1 en scroll je naar beneden en je zult alle commandos zien
-	/jailpos zet de gevangenispositie!
-	/setspawn <team> - om een spawnpositie van een bepaalde baan te zetten
-	Typ /adminhelpmenu om dit menu tevoorschijn te halen, /x om het te sluiten]],
-
-	bosshelp = [[De mob boss bepaalt wat andere gangsters doen
-	met de unarrest stick kun je anderen uit de gevangenis bevrijden
-	/agenda <bericht> (verandert de gangster agenda. Gebruik // of \n om naar de volgende lijn te gaan
-	Typ /mobboss help om dit menu tevoorschijn te halen, /x om het te sluiten]],
+	bosshelp = {"De mob boss bepaalt wat andere gangsters doen",
+	"met de unarrest stick kun je anderen uit de gevangenis bevrijden",
+	"/agenda <bericht> (verandert de gangster agenda. Gebruik // of \n om naar de volgende lijn te gaan"},
 
 	hints =
 	-- Dutch hints:
@@ -580,7 +554,6 @@ rp_languages.dutch = {
 	"Typ /gundealer - om gundealer te worden.",
 	"Typ /buygunlab - om een gunlab te kopen",
 	"Typ /cook - om een cook te worden.",
-	"Typ /cophelp om te zien wat je moet doen als je politie bent",
 	"Typ /buyfood <Type> (b.v: /buyfood melon)",
 	"Typ /rpname <Name> om je RPname te veranderen.",
 	"Typ /call <Naam> om iemand te bellen!"
@@ -596,7 +569,6 @@ rp_languages.danish = {
 	invalid_x = "Ugyldig %s! %s",
 
 	-- F1 menu
-	get_mod = "Få denne mod på garrysmod.org!",
 	mouse_wheel_to_scroll = "Brug musehjulet til at pladra",
 
 	-- Money things:
@@ -801,38 +773,24 @@ rp_languages.danish = {
 
 
 	-- Help!
-	cophelp = [[Ting, Betjente skal vide
-	Vær venlig ikke at misbruge dit job
-	Når du anholde en person, de er automatisk transporteret til fængsel.
-	De er automatisk læsladt fra fængslet efter %d sekunder
-	Skriv /warrant [Nick|SteamID|Status ID] for at lave en ransagningskendelse for en spiller.
-	Skriv /wanted [Nick|SteamID|Status ID] til at advare alle om en eftersøgt mistænkt
-	Skriv /unwanted [Nick|SteamID|Status ID] for at Rense en mistænkte.
-	Skriv /jailpos For at sætte Fængsels Position
-	Skriv /cophelp åbner/lukker denne menu, /x lukker den]],
+	cophelp = {
+	"Vær venlig ikke at misbruge dit job",
+	"Når du anholde en person, de er automatisk transporteret til fængsel.",
+	"De fængslet er automatisk løsladt fra fængslet efter få minutter",
+	"Skriv /warrant [Nick|SteamID|Status ID] for at lave en ransagningskendelse for en spiller.",
+	"Skriv /wanted [Nick|SteamID|Status ID] til at advare alle om en eftersøgt mistænkt",
+	"Skriv /unwanted [Nick|SteamID|Status ID] for at Rense en mistænkte.",
+	"Skriv /jailpos For at sætte Fængsels Position"},
 
-	mayorhelp = [[Type /warrant [Nick|SteamID|Status ID] for at lave en ransagningskendelse for en spiller.
-	Skriv /wanted [Nick|SteamID|Status ID] til at advare alle om en eftersøgt mistænkt
-	Skriv /unwanted [Nick|SteamID|Status ID] for at Rense en mistænkte.
-	Skriv /lockdown for at indlede en Nedlåsning
-	Skriv /unlockdown for at afslutte en Nedlåsning
-	Skriv /mayorhelp åbner/lukker denne menu, /x lukker den]],
+	mayorhelp = {"Type /warrant [Nick|SteamID|Status ID] for at lave en ransagningskendelse for en spiller.",
+	"Skriv /wanted [Nick|SteamID|Status ID] til at advare alle om en eftersøgt mistænkt",
+	"Skriv /unwanted [Nick|SteamID|Status ID] for at Rense en mistænkte.",
+	"Skriv /lockdown for at indlede en Nedlåsning",
+	"Skriv /unlockdown for at afslutte en Nedlåsning"},
 
-	adminhelp = [[/enablestorm Aktiver meteor storm
-	/disablestorm Deaktiver meteor storm
-	Du kan ændre prisen for våben, fængslestid, max gangstere, ect.
-	For at gøre dette skal du trykke på F1 rul derefter ned og du vil se alle de konsol kommandoer
-	Hvis du redigerer init.lua fil, du kan gemme vars.
-	Skriv /jailpos sætter Fængsels Position
-	Skriv /setspawn <team> - Indtast Hold navn Ex. politi, borgmester, gangster
-	Skriv /adminhelpmenu åbner/lukker denne menu, /x lukker den]],
-
-	bosshelp = [[Som mafiabossen, beslutter du, hvad du ønsker, at andre gangstere skal gøre.
-	Du får en Unarrest Stick, som du kan bruge til at bryde folk ud af fængsel.
-	/agenda <Besked> (Sætter Gangsters 'dagsorden. Brug / / for at gå til den næste linje.
-	Typing /mobbosshelp toggles this menu, /x closes it]],
-
-
+	bosshelp = {"Som mafiabossen, beslutter du, hvad du ønsker, at andre gangstere skal gøre.",
+	"Du får en Unarrest Stick, som du kan bruge til at bryde folk ud af fængsel.",
+	"/agenda <Besked> (Sætter Gangsters 'dagsorden. Brug / / for at gå til den næste linje."},
 
 	hints =
 	-- Danish hints:
@@ -870,7 +828,6 @@ rp_languages.danish = {
 	"Type /gundealer - For at blive en Våben sælger.",
 	"Type /buygunlab - For at købe et Gun Lab.",
 	"Type /cook - For at blive en Cook.",
-	"Type /cophelp at se, hvad du skal gøre som en betjent.",
 	"Type /buyfood <type> (e.g: / buyfood melon)",
 	"Type /rpname <navn> for at vælge dit rollespil navn.",
 	"Type /call <navn> for at ringe til nogen!",
@@ -886,7 +843,6 @@ rp_languages.swedish = {
 	invalid_x = "Inte godkänd %s! %s",
 
 	-- F1 menu
-	get_mod = "Hämta modden på garrysmod.org!",
 	mouse_wheel_to_scroll = "Använd mushjulet för att skrolla",
 
 	-- Money things:
@@ -1093,38 +1049,24 @@ rp_languages.swedish = {
 
 
 	-- Help!
-	cophelp = [[Saker polisen borde veta:
-	"Abusa" inte ditt jobb.
-	När du arresterar någon är dom automatiskt teleporterade till fängelset.
-	Dom är automatiskt utsläppta efter %d sekunder
-	Skriv /warrant [Namn|SteamID|Status ID] för att göra en husrannsakan mot en spelare.
-	Skriv /wanted [Namn|SteamID|Status ID] för att göra en spelare efterlyst.
-	Skriv /unwanted [Namn|SteamID|Status ID] för att tabort efterlysningen på en spelare.
-	Skriv /jailpos för att ändra fängelse positionen
-	Skriv /cophelp för att "toggla" denna meny, /x för att stänga den.]],
+	cophelp = {
+	"Abusa inte ditt jobb.",
+	"När du arresterar någon är dom automatiskt teleporterade till fängelset.",
+	"De är automatiskt utsläppta efter ett par minuter",
+	"Skriv /warrant [Namn|SteamID|Status ID] för att göra en husrannsakan mot en spelare.",
+	"Skriv /wanted [Namn|SteamID|Status ID] för att göra en spelare efterlyst.",
+	"Skriv /unwanted [Namn|SteamID|Status ID] för att tabort efterlysningen på en spelare.",
+	"Skriv /jailpos för att ändra fängelse positionen"},
 
-	mayorhelp = [[Skriv /warrant [Nick|SteamID|Status ID] för att göra en husrannsakan mot en spelare.
-	Skriv /wanted [Nick|SteamID|Status ID] för att göra en spelare efterlyst.
-	Skriv /unwanted [Nick|SteamID|Status ID] för att tabort efterlysningen på en spelare.
-	Skriv /lockdown för att starta en "lockdown"
-	Skriv /unlockdown för att tabort en "lockdown"
-	Skriv /mayorhelp för att "toggla" denna meny, /x för att stänga den.]],
+	mayorhelp = {"Skriv /warrant [Nick|SteamID|Status ID] för att göra en husrannsakan mot en spelare.",
+	"Skriv /wanted [Nick|SteamID|Status ID] för att göra en spelare efterlyst.",
+	"Skriv /unwanted [Nick|SteamID|Status ID] för att tabort efterlysningen på en spelare.",
+	"Skriv /lockdown för att starta en lockdown",
+	"Skriv /unlockdown för att tabort en lockdown"},
 
-	adminhelp = [[/enablestorm Aktiverar meteor stormar
-	/disablestorm Deaktiverar meteor stormar
-	Du kan ändra priset på vapen, jailtiden, max gangstrars, etc..
-	För att göra det tryck F1 och sen skrolla ner för att se dina krafter.
-	Om du ändrar init.lua kan du spara "vars"
-	/jailpos ändrar jailpositionen!
-	/setspawn <team> - Lägg till ett teamnamn, tex Police, Gangster...
-	/adminhelpmenu för att "toggla" denna meny, /x för att stänga den.]],
-
-	bosshelp = [[Som mob boss, bestämmer du vad alla gangstrar ska göra.
-	Du får en "unarrest stick" som du använder för att bryta andra ur fängelset.
-	/agenda <Message> Ändrar gangstrars agenda. Använd // för att gå till en ny rad.
-	Skriv /mobbosshelp för att "toggla" denna meny, /x för att stänga den.]],
-
-
+	bosshelp = {"Som mob boss, bestämmer du vad alla gangstrar ska göra.",
+	"Du får en unarrest stick som du använder för att bryta andra ur fängelset.",
+	"/agenda <Message> Ändrar gangstrars agenda. Använd // för att gå till en ny rad."},
 
 	hints =
 	-- Swedish hints:
@@ -1162,7 +1104,6 @@ rp_languages.swedish = {
 	"Skriv /gundealer - för att bli en gundealer/vapen handlare.",
 	"Skriv /buygunlab - för att köpa ett vapenlabb.",
 	"Skriv /cook - för att bli en Cook.",
-	"Skriv /cophelp för o se polisers hjälp.",
 	"Skriv /buyfood <Typ> (e.g: /buyfood melon)",
 	"Skriv /rpname <Namn> för att ändra ditt rollspel namn.",
 	"Skriv /call <Namn> för att ringa någon!"
@@ -1179,7 +1120,6 @@ rp_languages.french = {
 	invalid_x = "Invalide %s ! %s",
 
 	-- F1 menu (Menu F1 Aide)
-	get_mod = "Obtenez le mod sur garrysmod.org !",
 	mouse_wheel_to_scroll = "Utilisez la molette pour naviguer",
 
 	-- Money things: (Message d'Argent)
@@ -1387,36 +1327,24 @@ rp_languages.french = {
 
 
 	-- Help! (Aide !)
-	cophelp = [[Pas d'abus.
-	Après l'arrestation, l'arreté est téléporté en prison.
-	Ils sortent de prison après %d secondes.
-	Tapez /warrant [Nom RP|SteamID|Status ID] pour lancer un mandat sur un joueur.
-	Tapez /wanted [Nom RP|SteamID|Status ID] pour rechercher un suspect.
-	Tapez /unwanted [Nom RP|SteamID|Status ID] pour annuler les recherches.
-	Tapez /jailpos pour supprimer toutes les positions de cellule et en ajouter une ici.
-	Tapez /cophelp pour afficher ce menu, /x pour le fermer.]],
+	cophelp = {"Pas d'abus.",
+	"Après l'arrestation, l'arreté est téléporté en prison.",
+	"Ils sortent de prison après quelques minutes",
+	"Tapez /warrant [Nom RP|SteamID|Status ID] pour lancer un mandat sur un joueur.",
+	"Tapez /wanted [Nom RP|SteamID|Status ID] pour rechercher un suspect.",
+	"Tapez /unwanted [Nom RP|SteamID|Status ID] pour annuler les recherches.",
+	"Tapez /jailpos pour supprimer toutes les positions de cellule et en ajouter une ici."},
 
-	mayorhelp = [[Tapez /warrant [Nom RP|SteamID|Status ID] pour lancer un mandat sur un joueur.
-	Tapez /wanted [Nom RP|SteamID|Status ID] pour rechercher un suspect.
-	Tapez /unwanted [Nom RP|SteamID|Status ID] pour annuler les recherches.
-	Tapez /lockdown pour initier un couvre-feu.
-	Tapez /unlockdown pour terminer le couvre-feu.
-	Tapez /mayorhelp pour afficher ce menu, /x pour le fermer.]],
+	mayorhelp = {"Tapez /warrant [Nom RP|SteamID|Status ID] pour lancer un mandat sur un joueur.",
+	"Tapez /wanted [Nom RP|SteamID|Status ID] pour rechercher un suspect.",
+	"Tapez /unwanted [Nom RP|SteamID|Status ID] pour annuler les recherches.",
+	"Tapez /lockdown pour initier un couvre-feu.",
+	"Tapez /unlockdown pour terminer le couvre-feu."},
 
-	adminhelp = [[/enablestorm activer les pluies de météorites.
-	/disablestorm désactiver les pluies de météorites.
-	Vous pouvez changer tous les prix,
-	pour ce faire appuyez sur F1 celà affichera toutes les commandes.
-	Si vous editez le fichier init.lua vous pouvez sauvegarder les variables.
-	/jailpos supprime toutes les positions de cellule et en ajouter une ici.
-	/setspawn <métier> - Entrer le nom du metier Ex. mayor, gangster, gundealer.
-	/adminhelp afficher ce menu, /x le fermer.]],
-
-	bosshelp = [[Vous décidez de ce que les gangsters doivent faire.
-	Utilisez une matraque de désarrestation pour faire sortir les gens de prison.
-	/agenda <message> pour écrire dans l'agenda des gangsters.
-	Utilisez // pour aller a la ligne.
-	Tapez /mobbosshelp pour afficher ce menu, /x pour le fermer.]],
+	bosshelp = {"Vous décidez de ce que les gangsters doivent faire.",
+	"Utilisez une matraque de désarrestation pour faire sortir les gens de prison.",
+	"/agenda <message> pour écrire dans l'agenda des gangsters.",
+	"Utilisez // pour aller a la ligne."},
 
 	hints =
 	-- French hints:
@@ -1454,7 +1382,6 @@ rp_languages.french = {
 	"Tapez /gundealer pour devenir vendeur d'armes.",
 	"Tapez /buygunlab pour acheter un laboratoire d'armes.",
 	"Tapez /cook pour devenir cuisinier.",
-	"Tapez /cophelp pour voir ce que vous devez savoir quand vous êtes policier.",
 	"Tapez /buyfood <nom nourriture> pour acheter de la nourriture (ex: /buyfood melon)",
 	"Tapez /rpname <nom> pour choisir votre nom RP.",
 	"Tapez /call <nom> pour appeler quelqu'un avec votre téléphone portable !",

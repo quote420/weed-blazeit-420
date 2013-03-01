@@ -293,6 +293,7 @@ FAdmin.StartHooks["CL_KickBan"] = function()
 		local SteamID = ply:SteamID()
 		local NICK = ply:Nick()
 
+		if ply:IsBot() then SteamID = "BOT" end
 		showBanWindow(SteamID, NICK)
 	end)
 
@@ -322,7 +323,7 @@ FAdmin.StartHooks["CL_KickBan"] = function()
 		unban:SetSize(40, 25)
 
 		function unban:DoClick()
-			if selectedLine then
+			if ValidPanel(selectedLine) then
 				RunConsoleCommand("_FAdmin", "Unban", string.upper(selectedLine:GetValue(1)))
 				BanList:RemoveLine(selectedLine:GetID())
 			end

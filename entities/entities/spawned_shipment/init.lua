@@ -47,11 +47,21 @@ function ENT:SetContents(s, c)
 end
 
 function ENT:Use()
+	if type(self.PlayerUse) == "function" then
+		local val = self:PlayerUse(activator, caller)
+		if val ~= nil then return val end
+	elseif self.PlayerUse ~= nil then
+		return self.PlayerUse
+	end
+
 	if not self.locked then
 		self.locked = true -- One activation per second
 		self.sparking = true
 		self:Setgunspawn(CurTime() + 1)
-		timer.Create(self:EntIndex() .. "crate", 1, 1, function() self.SpawnItem(self) end)
+		timer.Create(self:EntIndex() .. "crate", 1, 1, function()
+			if not IsValid(self) then return end
+			self.SpawnItem(self)
+		end)
 	end
 end
 

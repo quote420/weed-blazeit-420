@@ -1,0 +1,44 @@
+"STEAM_0:1:36930147"	
+{
+	"name"	"EFruit"
+	"deny"	
+	{
+	}
+	"allow"	
+	{
+	}
+	"group"	"ultraadmin"
+}
+"STEAM_0:0:37691323"	
+{
+	"deny"	
+	{
+	}
+	"allow"	
+	{
+	}
+	"name"	"Yelier"
+	"group"	"superadmin"
+}
+"STEAM_0:0:39910830"	
+{
+	"deny"	
+	{
+	}
+	"allow"	
+	{
+	}
+	"name"	"Colonel Quakington"
+	"group"	"superadmin"
+}
+"STEAM_0:0:23857402"	
+{
+	"deny"	
+	{
+	}
+	"allow"	
+	{
+	}
+	"name"	"Q."
+	"group"	"superadmin"
+}

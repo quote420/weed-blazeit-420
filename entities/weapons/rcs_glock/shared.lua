@@ -6,12 +6,11 @@ if (SERVER) then
 	SWEP.Weight				= 5
 	SWEP.AutoSwitchTo		= false
 	SWEP.AutoSwitchFrom		= false
-	SWEP.HoldType			= "gravitygun"
 
 end
 
 if ( CLIENT ) then
-	SWEP.PrintName			= "Glock GmbH 9mm"	
+	SWEP.PrintName			= "Glock 17"	
 	SWEP.Author				= "cheesylard"
 	SWEP.DrawAmmo			= true
 	SWEP.DrawCrosshair		= false
@@ -28,6 +27,7 @@ end
 
 SWEP.Category				= "RealCS"
 SWEP.Base					= "rcs_base_burst_pistol"
+SWEP.HoldType				= "pistol"
 
 SWEP.Spawnable				= true
 SWEP.AdminSpawnable			= true

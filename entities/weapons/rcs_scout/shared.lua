@@ -7,12 +7,11 @@ if (SERVER) then
 	SWEP.Weight				= 5
 	SWEP.AutoSwitchTo		= false
 	SWEP.AutoSwitchFrom		= false
-	SWEP.HoldType			= "ar2"
 
 end
 
 if (CLIENT) then
-	SWEP.PrintName			= "M40 scout rifle"	
+	SWEP.PrintName			= "Scout"	
 	SWEP.Author				= "cheesylard"
 	SWEP.DrawAmmo			= true
 	SWEP.DrawCrosshair		= false
@@ -21,7 +20,7 @@ if (CLIENT) then
 	SWEP.CSMuzzleFlashes	= true
 		
 		
-	SWEP.SlotPos			= 1
+	SWEP.Slot				= 3
 	SWEP.IconLetter			= "n"
 	SWEP.NameOfSWEP			= "rcs_scout" --always make this the name of the folder the SWEP is in. 
 	killicon.AddFont( SWEP.NameOfSWEP, "CSKillIcons", SWEP.IconLetter, Color( 255, 80, 0, 255 ) )
@@ -29,6 +28,7 @@ end
 
 SWEP.Category				= "RealCS"
 SWEP.Base					= "rcs_base_bsnip"
+SWEP.HoldType				= "ar2"
 
 SWEP.Spawnable				= true
 SWEP.AdminSpawnable			= true

@@ -343,7 +343,7 @@ local function KeysMenu(um)
 		Owndoor:SetPos(10, 30)
 		Owndoor:SetSize(180, 100)
 		Owndoor:SetText("Sell " .. Entiteh)
-		Owndoor.DoClick = function() RunConsoleCommand("say", "/toggleown") Frame:Close() end
+		Owndoor.DoClick = function() RunConsoleCommand("darkrp", "/toggleown") Frame:Close() end
 
 		local AddOwner = vgui.Create("DButton", Frame)
 		AddOwner:SetPos(10, 140)
@@ -355,7 +355,7 @@ local function KeysMenu(um)
 			for k,v in pairs(player.GetAll()) do
 				if not trace.Entity:OwnedBy(v) and not trace.Entity:AllowedToOwn(v) then
 					menu.found = true
-					menu:AddOption(v:Nick(), function() LocalPlayer():ConCommand("say /ao ".. v:UserID()) end)
+					menu:AddOption(v:Nick(), function() LocalPlayer():ConCommand("darkrp /ao ".. v:UserID()) end)
 				end
 			end
 			if not menu.found then
@@ -373,7 +373,7 @@ local function KeysMenu(um)
 			for k,v in pairs(player.GetAll()) do
 				if (trace.Entity:OwnedBy(v) and not trace.Entity:IsMasterOwner(v)) or trace.Entity:AllowedToOwn(v) then
 					menu.found = true
-					menu:AddOption(v:Nick(), function() LocalPlayer():ConCommand("say /ro ".. v:UserID()) end)
+					menu:AddOption(v:Nick(), function() LocalPlayer():ConCommand("darkrp /ro ".. v:UserID()) end)
 				end
 			end
 			if not menu.found then
@@ -391,7 +391,7 @@ local function KeysMenu(um)
 		end
 		DoorTitle.DoClick = function()
 			Derma_StringRequest("Set door title", "Set the title of the "..Entiteh.." you're looking at", "", function(text)
-				LocalPlayer():ConCommand("say /title ".. text)
+				LocalPlayer():ConCommand("darkrp /title ".. text)
 				if ValidPanel(Frame) then
 					Frame:Close()
 				end
@@ -412,18 +412,18 @@ local function KeysMenu(um)
 				local add = teams:AddSubMenu("Add")
 				local remove = teams:AddSubMenu("Remove")
 
-				menu:AddOption("None", function() RunConsoleCommand("say", "/togglegroupownable") Frame:Close() end)
+				menu:AddOption("None", function() RunConsoleCommand("darkrp", "/togglegroupownable") Frame:Close() end)
 				for k,v in pairs(RPExtraTeamDoors) do
-					groups:AddOption(k, function() RunConsoleCommand("say", "/togglegroupownable "..k) Frame:Close() end)
+					groups:AddOption(k, function() RunConsoleCommand("darkrp", "/togglegroupownable", k) Frame:Close() end)
 				end
 
 				if not trace.Entity.DoorData then return end
 
 				for k,v in pairs(RPExtraTeams) do
 					if not trace.Entity.DoorData.TeamOwn or not trace.Entity.DoorData.TeamOwn[k] then
-						add:AddOption( v.name, function() RunConsoleCommand("say", "/toggleteamownable " ..k) Frame:Close() end )
+						add:AddOption( v.name, function() RunConsoleCommand("darkrp", "/toggleteamownable", k) Frame:Close() end )
 					else
-						remove:AddOption( v.name, function() RunConsoleCommand("say", "/toggleteamownable " ..k) Frame:Close() end )
+						remove:AddOption( v.name, function() RunConsoleCommand("darkrp", "/toggleteamownable", k) Frame:Close() end )
 					end
 				end
 
@@ -437,7 +437,7 @@ local function KeysMenu(um)
 			Owndoor:SetPos(10, 30)
 			Owndoor:SetSize(180, 100)
 			Owndoor:SetText("Buy " .. Entiteh)
-			Owndoor.DoClick = function() RunConsoleCommand("say", "/toggleown") Frame:Close() end
+			Owndoor.DoClick = function() RunConsoleCommand("darkrp", "/toggleown") Frame:Close() end
 		end
 
 		if LocalPlayer():IsSuperAdmin() then
@@ -451,7 +451,7 @@ local function KeysMenu(um)
 			DisableOwnage:SetPos(10, Frame:GetTall() - 220)
 			DisableOwnage:SetSize(180, 100)
 			DisableOwnage:SetText("Disallow ownership")
-			DisableOwnage.DoClick = function() Frame:Close() RunConsoleCommand("say", "/toggleownable") end
+			DisableOwnage.DoClick = function() Frame:Close() RunConsoleCommand("darkrp", "/toggleownable") end
 
 			local SetCopsOnly = vgui.Create("DButton", Frame)
 			SetCopsOnly:SetPos(10, Frame:GetTall() - 110)
@@ -464,25 +464,25 @@ local function KeysMenu(um)
 				local add = teams:AddSubMenu("Add")
 				local remove = teams:AddSubMenu("Remove")
 
-				menu:AddOption("None", function() RunConsoleCommand("say", "/togglegroupownable") Frame:Close() end)
+				menu:AddOption("None", function() RunConsoleCommand("darkrp", "/togglegroupownable") Frame:Close() end)
 				for k,v in pairs(RPExtraTeamDoors) do
-					groups:AddOption(k, function() RunConsoleCommand("say", "/togglegroupownable "..k) Frame:Close() end)
+					groups:AddOption(k, function() RunConsoleCommand("darkrp", "/togglegroupownable", k) Frame:Close() end)
 				end
 
 				if not trace.Entity.DoorData then return end
 
 				for k,v in pairs(RPExtraTeams) do
 					if not trace.Entity.DoorData.TeamOwn or not trace.Entity.DoorData.TeamOwn[k] then
-						add:AddOption(v.name, function() RunConsoleCommand("say", "/toggleteamownable " .. k) if Frame.Close then Frame:Close() end end)
+						add:AddOption(v.name, function() RunConsoleCommand("darkrp", "/toggleteamownable", k) if Frame.Close then Frame:Close() end end)
 					else
-						remove:AddOption(v.name, function() RunConsoleCommand("say", "/toggleteamownable " .. k) Frame:Close() end)
+						remove:AddOption(v.name, function() RunConsoleCommand("darkrp", "/toggleteamownable", k) Frame:Close() end)
 					end
 				end
 
 				menu:Open()
 			end
 		elseif not trace.Entity.DoorData.GroupOwn then
-			RunConsoleCommand("say", "/toggleown")
+			RunConsoleCommand("darkrp", "/toggleown")
 			Frame:Close()
 			KeyFrameVisible = true
 			timer.Simple(0.3, function() KeyFrameVisible = false end)
@@ -493,7 +493,7 @@ local function KeysMenu(um)
 		Owndoor:SetPos(10, 30)
 		Owndoor:SetSize(180, 100)
 		Owndoor:SetText("Co-own " .. Entiteh)
-		Owndoor.DoClick = function() RunConsoleCommand("say", "/toggleown") Frame:Close() end
+		Owndoor.DoClick = function() RunConsoleCommand("darkrp", "/toggleown") Frame:Close() end
 
 		if LocalPlayer():IsSuperAdmin() then
 			Frame:SetSize(200, Frame:GetTall() + 110)
@@ -508,25 +508,25 @@ local function KeysMenu(um)
 				local add = teams:AddSubMenu("Add")
 				local remove = teams:AddSubMenu("Remove")
 
-				menu:AddOption("None", function() RunConsoleCommand("say", "/togglegroupownable") Frame:Close() end)
+				menu:AddOption("None", function() RunConsoleCommand("darkrp", "/togglegroupownable") Frame:Close() end)
 				for k,v in pairs(RPExtraTeamDoors) do
-					groups:AddOption(k, function() RunConsoleCommand("say", "/togglegroupownable "..k) Frame:Close() end)
+					groups:AddOption(k, function() RunConsoleCommand("darkrp", "/togglegroupownable", k) Frame:Close() end)
 				end
 
 				if not trace.Entity.DoorData then return end
 
 				for k,v in pairs(RPExtraTeams) do
 					if not trace.Entity.DoorData.TeamOwn or not trace.Entity.DoorData.TeamOwn[k] then
-						add:AddOption( v.name, function() RunConsoleCommand("say", "/toggleteamownable " ..k) Frame:Close() end )
+						add:AddOption( v.name, function() RunConsoleCommand("darkrp", "/toggleteamownable", k) Frame:Close() end )
 					else
-						remove:AddOption( v.name, function() RunConsoleCommand("say", "/toggleteamownable " ..k) Frame:Close() end )
+						remove:AddOption( v.name, function() RunConsoleCommand("darkrp", "/toggleteamownable", k) Frame:Close() end )
 					end
 				end
 
 				menu:Open()
 			end
 		else
-			RunConsoleCommand("say", "/toggleown")
+			RunConsoleCommand("darkrp", "/toggleown")
 			Frame:Close()
 			KeyFrameVisible = true
 			timer.Simple(0.3, function() KeyFrameVisible = false end)
@@ -537,14 +537,14 @@ local function KeysMenu(um)
 		EnableOwnage:SetPos(10, 30)
 		EnableOwnage:SetSize(180, 100)
 		EnableOwnage:SetText("Allow ownership")
-		EnableOwnage.DoClick = function() Frame:Close() RunConsoleCommand("say", "/toggleownable") end
+		EnableOwnage.DoClick = function() Frame:Close() RunConsoleCommand("darkrp", "/toggleownable") end
 
 		local DoorTitle = vgui.Create("DButton", Frame)
 		DoorTitle:SetPos(10, Frame:GetTall() - 110)
 		DoorTitle:SetSize(180, 100)
 		DoorTitle:SetText("Set "..Entiteh.." title")
 		DoorTitle.DoClick = function()
-			Derma_StringRequest("Set door title", "Set the title of the "..Entiteh.." you're looking at", "", function(text) LocalPlayer():ConCommand("say /title ".. text) Frame:Close() end, function() end, "OK!", "CANCEL!")
+			Derma_StringRequest("Set door title", "Set the title of the "..Entiteh.." you're looking at", "", function(text) LocalPlayer():ConCommand("darkrp /title ".. text) Frame:Close() end, function() end, "OK!", "CANCEL!")
 		end
 	elseif LocalPlayer():IsSuperAdmin() and not trace.Entity:OwnedBy(LocalPlayer()) and trace.Entity:IsOwned() and not trace.Entity:AllowedToOwn(LocalPlayer()) then
 		Frame:SetSize(200, 250)
@@ -552,7 +552,7 @@ local function KeysMenu(um)
 		DisableOwnage:SetPos(10, 30)
 		DisableOwnage:SetSize(180, 100)
 		DisableOwnage:SetText("Disallow ownership")
-		DisableOwnage.DoClick = function() Frame:Close() RunConsoleCommand("say", "/toggleownable") end
+		DisableOwnage.DoClick = function() Frame:Close() RunConsoleCommand("darkrp", "/toggleownable") end
 
 		local SetCopsOnly = vgui.Create("DButton", Frame)
 		SetCopsOnly:SetPos(10, Frame:GetTall() - 110)
@@ -567,16 +567,16 @@ local function KeysMenu(um)
 
 				if not trace.Entity.DoorData then return end
 
-				menu:AddOption("None", function() RunConsoleCommand("say", "/togglegroupownable") Frame:Close() end)
+				menu:AddOption("None", function() RunConsoleCommand("darkrp", "/togglegroupownable") Frame:Close() end)
 				for k,v in pairs(RPExtraTeamDoors) do
-					groups:AddOption(k, function() RunConsoleCommand("say", "/togglegroupownable "..k) Frame:Close() end)
+					groups:AddOption(k, function() RunConsoleCommand("darkrp", "/togglegroupownable", k) Frame:Close() end)
 				end
 
 				for k,v in pairs(RPExtraTeams) do
 					if not trace.Entity.DoorData.TeamOwn or not trace.Entity.DoorData.TeamOwn[k] then
-						add:AddOption( v.name, function() RunConsoleCommand("say", "/toggleteamownable " ..k) Frame:Close() end )
+						add:AddOption( v.name, function() RunConsoleCommand("darkrp", "/toggleteamownable", k) Frame:Close() end )
 					else
-						remove:AddOption( v.name, function() RunConsoleCommand("say", "/toggleteamownable " ..k) Frame:Close() end )
+						remove:AddOption( v.name, function() RunConsoleCommand("darkrp", "/toggleteamownable", k) Frame:Close() end )
 					end
 				end
 

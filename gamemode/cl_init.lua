@@ -59,7 +59,7 @@ end
 usermessage.Hook("_Notify", DisplayNotify)
 
 local function LoadModules()
-	local root = GAMEMODE.FolderName.."/gamemode/modules/"
+	local root = GM.FolderName.."/gamemode/modules/"
 
 	local _, folders = file.Find(root.."*", "LUA")
 
@@ -105,6 +105,8 @@ include("fpp/client/FPP_Menu.lua")
 include("fpp/client/FPP_HUD.lua")
 include("fpp/client/FPP_Buddies.lua")
 include("fpp/sh_CPPI.lua")
+
+LoadModules()
 
 surface.CreateFont("AckBarWriting", {
 	size = 20,
@@ -183,6 +185,7 @@ local function ToggleHelp()
 	HelpToggled = not HelpToggled
 
 	HelpVGUI.HelpX = HelpVGUI.StartHelpX
+	HelpVGUI:FillHelpInfo()
 	HelpVGUI:SetVisible(HelpToggled)
 	gui.EnableScreenClicker(HelpToggled)
 end
@@ -382,12 +385,14 @@ function GM:ChatTextChanged(text)
 		local t = LocalPlayer():Team()
 		playercolors = {}
 
+		local hasReceived = {}
 		for _, func in pairs(GAMEMODE.DarkRPGroupChats) do
 			-- not the group of the player
 			if not func(LocalPlayer()) then continue end
 
 			for _, target in pairs(player.GetAll()) do
-				if func(target) and target ~= LocalPlayer() then
+				if func(target) and target ~= LocalPlayer() and not hasReceived[target] then
+					hasReceived[target] = true
 					table.insert(playercolors, target)
 				end
 			end
@@ -593,8 +598,6 @@ end
 net.Receive("DarkRP_InitializeVars", InitializeDarkRPVars)
 
 function GM:InitPostEntity()
-	LoadModules()
-
 	RunConsoleCommand("_sendDarkRPvars")
 	timer.Create("DarkRPCheckifitcamethrough", 15, 0, function()
 		for k,v in pairs(player.GetAll()) do
@@ -605,6 +608,19 @@ function GM:InitPostEntity()
 		end
 	end)
 end
+
+function GM:TeamChanged(before, after)
+	if RPExtraTeams[after] and RPExtraTeams[after].help then
+		self:AddHelpCategory(0, RPExtraTeams[after].name .. " help")
+		self:AddHelpLabels(0, RPExtraTeams[after].help)
+	end
+end
+
+local function OnChangedTeam(um)
+	hook.Call("TeamChanged", GAMEMODE, um:ReadShort(), um:ReadShort())
+end
+usermessage.Hook("OnChangedTeam", OnChangedTeam)
+
 
 -- Please only ADD to the credits
 -- Removing people from the credits will make at least one person very angry.
@@ -644,7 +660,7 @@ FAdmin.StartHooks["DarkRP"] = function()
 		function(ply) local t = LocalPlayer():Team() return t == TEAM_POLICE or t == TEAM_MAYOR or t == TEAM_CHIEF end,
 		function(ply, button)
 			Derma_StringRequest("Warrant reason", "Enter the reason for the warrant", "", function(Reason)
-				LocalPlayer():ConCommand("say /warrant ".. ply:UserID().." ".. Reason)
+				LocalPlayer():ConCommand("darkrp /warrant ".. ply:UserID().." ".. Reason)
 			end)
 		end)
 
@@ -658,10 +674,10 @@ FAdmin.StartHooks["DarkRP"] = function()
 		function(ply, button)
 			if not ply.DarkRPVars.wanted  then
 				Derma_StringRequest("wanted reason", "Enter the reason to arrest this player", "", function(Reason)
-					LocalPlayer():ConCommand("say /wanted ".. ply:UserID().." ".. Reason)
+					LocalPlayer():ConCommand("darkrp /wanted ".. ply:UserID().." ".. Reason)
 				end)
 			else
-				LocalPlayer():ConCommand("say /unwanted ".. ply:UserID())
+				LocalPlayer():ConCommand("darkrp /unwanted ".. ply:UserID())
 			end
 		end)
 

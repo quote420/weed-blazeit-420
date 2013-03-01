@@ -3,7 +3,6 @@
 if (SERVER) then
 
 	AddCSLuaFile( "shared.lua" )
-	SWEP.HoldType			= "crossbow"
 
 end
 
@@ -19,6 +18,7 @@ end
 
 SWEP.Category				= "RealCS"
 SWEP.Base					= "rcs_base"
+SWEP.HoldType				= "crossbow"
 
 SWEP.Spawnable				= false
 SWEP.AdminSpawnable			= false

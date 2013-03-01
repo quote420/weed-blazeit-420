@@ -3,7 +3,6 @@
 if (SERVER) then
 
 	AddCSLuaFile( "shared.lua" )
-	SWEP.HoldType			= "gravitygun"
 
 end
 
@@ -19,7 +18,7 @@ if ( CLIENT ) then
 	SWEP.IconLetter			= "c"
 	killicon.AddFont( SWEP.NameOfSWEP, "CSKillIcons", SWEP.IconLetter, Color( 255, 80, 0, 255 ) )
 end
-
+SWEP.HoldType				= "gravitygun"
 SWEP.Category				= "RealCS"
 SWEP.Base					= "rcs_base"
 

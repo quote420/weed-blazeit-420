@@ -75,7 +75,7 @@ function SWEP:PrimaryAttack()
 	local mass = trace.Entity.RPOriginalMass and trace.Entity.RPOriginalMass or phys:GetMass()
 
 	self.Owner:GetTable().Pocket = self.Owner:GetTable().Pocket or {}
-	if not trace.Entity:CPPICanPickup(self.Owner) or table.HasValue(self.Owner:GetTable().Pocket, trace.Entity) or trace.Entity.jailWall then
+	if not trace.Entity:CPPICanPickup(self.Owner) or trace.Entity.IsPocketed or trace.Entity.jailWall then
 		GAMEMODE:Notify(self.Owner, 1, 4, "You can not put this object in your pocket!")
 		return
 	end
@@ -106,9 +106,12 @@ function SWEP:PrimaryAttack()
 	trace.Entity:SetPos(trace.Entity:GetPos())
 	local phys = trace.Entity:GetPhysicsObject()
 	phys:EnableMotion(false)
+	trace.Entity.OldCollisionGroup = trace.Entity:GetCollisionGroup()
 	trace.Entity:SetCollisionGroup(COLLISION_GROUP_WORLD)
 	trace.Entity.PhysgunPickup = false
+	trace.Entity.OldPlayerUse = trace.Entity.PlayerUse
 	trace.Entity.PlayerUse = false
+	trace.Entity.IsPocketed = true
 end
 
 function SWEP:SecondaryAttack()
@@ -286,7 +289,7 @@ elseif SERVER then
 		local tr = util.TraceLine(trace)
 		ent:SetMoveType(MOVETYPE_VPHYSICS)
 		ent:SetNoDraw(false)
-		ent:SetCollisionGroup(COLLISION_GROUP_WORLD)
+		ent:SetCollisionGroup(ent.OldCollisionGroup)
 		ent:SetPos(tr.HitPos)
 		ent:SetSolid(SOLID_VPHYSICS)
 		local phys = ent:GetPhysicsObject()
@@ -299,7 +302,9 @@ elseif SERVER then
 			umsg.Short(ent:EntIndex())
 		umsg.End()
 		ent.PhysgunPickup = nil
-		ent.PlayerUse = nil
+		ent.PlayerUse = ent.OldPlayerUse
+		ent.OldPlayerUse = nil
+		ent.IsPocketed = nil
 	end
 
 	hook.Add("PlayerDeath", "DropPocketItems", function(ply)

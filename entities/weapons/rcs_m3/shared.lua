@@ -5,20 +5,19 @@ if (SERVER) then
 	AddCSLuaFile( "shared.lua" )
 	SWEP.Weight				= 5
 
-	SWEP.HoldType			= "crossbow"
-
 end
 
 if ( CLIENT ) then
-	SWEP.PrintName			= "Benelli M3 Super 90"	
+	SWEP.PrintName			= "M3"	
 	SWEP.Author				= "cheesylard"
-	SWEP.SlotPos			= 2
+	SWEP.Slot				= 2
 	SWEP.IconLetter			= "k"
 
 	SWEP.NameOfSWEP			= "rcs_m3" --always make this the name of the folder the SWEP is in.
 	killicon.AddFont( SWEP.NameOfSWEP, "CSKillIcons", SWEP.IconLetter, Color( 255, 80, 0, 255 ) )
 end
 
+SWEP.HoldType				= "crossbow"
 SWEP.Category				= "RealCS"
 SWEP.Base					= "rcs_base_shotgun"
 

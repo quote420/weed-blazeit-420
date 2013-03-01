@@ -93,7 +93,10 @@ end
 function FAdmin.ScoreBoard.Server.Show(ply)
 	local ScreenWidth, ScreenHeight = ScrW(), ScrH()
 
-	FAdmin.ScoreBoard.Server.Controls.InfoPanel = FAdmin.ScoreBoard.Server.Controls.InfoPanel or vgui.Create("FAdminPanelList")
+	if ValidPanel(FAdmin.ScoreBoard.Server.Controls.InfoPanel) then
+		FAdmin.ScoreBoard.Server.Controls.InfoPanel:Remove()
+	end
+	FAdmin.ScoreBoard.Server.Controls.InfoPanel = vgui.Create("FAdminPanelList")
 	FAdmin.ScoreBoard.Server.Controls.InfoPanel:SetPos(FAdmin.ScoreBoard.X + 20, FAdmin.ScoreBoard.Y + 120)
 	FAdmin.ScoreBoard.Server.Controls.InfoPanel:SetSize(FAdmin.ScoreBoard.Width - 40, FAdmin.ScoreBoard.Height / 5)
 	FAdmin.ScoreBoard.Server.Controls.InfoPanel:SetVisible(true)
@@ -103,6 +106,7 @@ function FAdmin.ScoreBoard.Server.Show(ply)
 	local function AddInfoPanel()
 		local pan = vgui.Create("FAdminPanelList")
 		pan:SetSize(1, FAdmin.ScoreBoard.Server.Controls.InfoPanel:GetTall())
+		pan:Dock(LEFT)
 		FAdmin.ScoreBoard.Server.Controls.InfoPanel:Add(pan)
 
 		table.insert(InfoPanels, pan)
@@ -115,6 +119,8 @@ function FAdmin.ScoreBoard.Server.Show(ply)
 		local Text = vgui.Create("DLabel")
 		Text:SetFont("TabLarge")
 		Text:SetColor(Color(255,255,255,200))
+		Text:Dock(TOP)
+		Text.Func = v.Func
 
 		local EndText
 		local function RefreshText()

@@ -50,7 +50,7 @@ GM.Config.customspawns 					= true
 -- deathblack - Whether or not a player sees black on death.
 GM.Config.deathblack 					= false
 -- showdeaths - Display kill information in the upper right corner of everyone's screen.
-GM.Config.showdeaths 					= true
+GM.Config.showdeaths 					= false
 -- deathpov - Enable/disable whether people see their death in first person view
 GM.Config.deathpov 						= false
 -- decalcleaner - Enable/Disable clearing ever players decals.
@@ -116,7 +116,7 @@ GM.Config.proppaying 					= false
 -- propspawning - Enable/disable props spawning for non-admins.
 GM.Config.propspawning 					= true
 -- removeclassitems - Enable/disable shipments/microwaves/etc. removal when someone changes team.
-GM.Config.removeclassitems 				= true
+GM.Config.removeclassitems 				= false
 -- respawninjail - Enable/disable whether people can respawn in jail when they die
 GM.Config.respawninjail 				= true
 -- restrictallteams - Enable/disable Players can only be citizen until an admin allows them.

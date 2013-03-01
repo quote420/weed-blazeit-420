@@ -64,8 +64,8 @@ concommand.Add("FPP_setting", FPP_SetSetting)
 local function AddBlocked(ply, cmd, args)
 	if ply:EntIndex() ~= 0 and not ply:IsSuperAdmin() then FPP.Notify(ply, "You need superadmin privileges in order to be able to use this command", false) return end
 	if not args[1] or not args[2] or not FPP.Blocked[args[1]] then FPP.Notify(ply, "Argument(s) invalid", false) return end
-	if table.HasValue(FPP.Blocked[args[1]], string.lower(args[2])) then return end
-	table.insert(FPP.Blocked[args[1]], string.lower(args[2]))
+	if FPP.Blocked[args[1]][string.lower(args[2])] then return end
+	FPP.Blocked[args[1]][string.lower(args[2])] = true
 
 	DB.Query("SELECT * FROM FPP_BLOCKED1;", function(data)
 		if type(data) == "table" then
@@ -112,11 +112,7 @@ local function RemoveBlocked(ply, cmd, args)
 	if ply:EntIndex() ~= 0 and not ply:IsSuperAdmin() then FPP.Notify(ply, "You need superadmin privileges in order to be able to use this command", false) return end
 	if not args[1] or not args[2] or not FPP.Blocked[args[1]] then FPP.Notify(ply, "Argument(s) invalid", false) return end
 
-	for k,v in pairs(FPP.Blocked[args[1]]) do
-		if v == args[2] then
-			table.remove(FPP.Blocked[args[1]], k)
-		end
-	end
+	FPP.Blocked[args[1]][args[2]] = nil
 
 	DB.Query("DELETE FROM FPP_BLOCKED1 WHERE var = "..sql.SQLStr(args[1]) .. " AND setting = "..sql.SQLStr(args[2])..";")
 	FPP.NotifyAll(((ply.Nick and ply:Nick()) or "Console").. " removed ".. args[2] .. " from the "..args[1] .. " black/whitelist", false)
@@ -206,63 +202,35 @@ local function RetrieveBlocked()
 					ErrorNoHalt((v.var or "(nil var)") .. " blocked type does not exist! (Setting: " .. (v.setting or "") .. ")")
 					continue
 				end
-				table.insert(FPP.Blocked[v.var], v.setting)
+
+				FPP.Blocked[v.var][v.setting] = true
 			end
 		else
 			data = DB.Query("CREATE TABLE IF NOT EXISTS FPP_BLOCKED1(id INTEGER NOT NULL, var TEXT NOT NULL, setting TEXT NOT NULL, PRIMARY KEY(id));")
+
 			FPP.Blocked.Physgun1 = {
-				"func_breakable_surf",
-				"func_brush",
-				"func_door",
-				"prop_door_rotating",
-				"drug",
-				"drug_lab",
-				"food",
-				"gunlab",
-				"letter",
-				"meteor",
-				"microwave",
-				"money_printer",
-				"spawned_shipment",
-				"spawned_weapon",
-				"spawned_food",}
-			FPP.Blocked.Spawning1 = {"func_breakable_surf",
-				"player",
-				"func_door",
-				"prop_door_rotating",
-				"drug",
-				"drug_lab",
-				"food",
-				"gunlab",
-				"letter",
-				"meteor",
-				"microwave",
-				"money_printer",
-				"spawned_shipment",
-				"spawned_weapon",
-				"spawned_food",
-				"spawned_money",
-				"ent_explosivegrenade",
-				"ent_mad_grenade",
-				"ent_flashgrenade",
-				"gmod_wire_field_device"}
-			FPP.Blocked.Gravgun1 = {"func_breakable_surf", "vehicle_"}
-			FPP.Blocked.Toolgun1 = {"func_breakable_surf",
-				"player",
-				"func_door",
-				"prop_door_rotating",
-				"drug",
-				"drug_lab",
-				"food",
-				"gunlab",
-				"letter",
-				"meteor",
-				"microwave",
-				"money_printer",
-				"spawned_shipment",
-				"spawned_weapon",
-				"spawned_food",
-				"spawned_money"}
+				["func_breakable_surf"] = true,
+				["func_brush"] = true,
+				["func_door"] = true,
+				["prop_door_rotating"] = true
+			}
+			FPP.Blocked.Spawning1 = {
+				["func_breakable_surf"] = true,
+				["player"] = true,
+				["func_door"] = true,
+				["prop_door_rotating"] = true,
+				["ent_explosivegrenade"] = true,
+				["ent_mad_grenade"] = true,
+				["ent_flashgrenade"] = true,
+				["gmod_wire_field_device"] = true
+			}
+			FPP.Blocked.Gravgun1 = {["func_breakable_surf"] = true, ["vehicle_"] = true}
+			FPP.Blocked.Toolgun1 = {
+				["func_breakable_surf"] = true,
+				["player"] = true,
+				["func_door"] = true,
+				["prop_door_rotating"] = true
+			}
 			FPP.Blocked.PlayerUse1 = {}
 			FPP.Blocked.EntityDamage1 = {}
 
@@ -271,12 +239,29 @@ local function RetrieveBlocked()
 			for k,v in pairs(FPP.Blocked) do
 				for a,b in pairs(v) do
 					count = count + 1
-					DB.Query("REPLACE INTO FPP_BLOCKED1 VALUES(".. count ..", " .. sql.SQLStr(k) .. ", " .. sql.SQLStr(b) .. ");")
+					DB.Query("REPLACE INTO FPP_BLOCKED1 VALUES(".. count ..", " .. sql.SQLStr(k) .. ", " .. sql.SQLStr(a) .. ");")
 				end
 			end
 			DB.Commit()
 		end
 	end)
+end
+
+/*---------------------------------------------------------------------------
+Default blocked entities
+Don't save them in the database, but always block them.
+---------------------------------------------------------------------------*/
+function FPP.AddDefaultBlocked(types, classname)
+	classname = string.lower(classname)
+
+	if type(types) == "string" then
+		FPP.Blocked[types][classname] = true
+		return
+	end
+
+	for k,v in pairs(types) do
+		FPP.Blocked[v][classname] = true
+	end
 end
 
 local function RetrieveBlockedModels()
@@ -572,19 +557,27 @@ end
 concommand.Add("FPP_SendGroupMembers", SendGroupMemberData)
 
 local function SendBlocked(ply, cmd, args)
-	--I don't need an admin check here since people should be able to find out without having admin
 	if not args[1] or not FPP.Blocked[args[1]] then return end
+
+	ply.FPPUmsg1 = ply.FPPUmsg1 or {}
+	ply.FPPUmsg1[args[1]] = ply.FPPUmsg1[args[1]] or 0
+	if ply.FPPUmsg1[args[1]] > CurTime() - 5 then return end
+	ply.FPPUmsg1[args[1]] = CurTime()
+
 	for k,v in pairs(FPP.Blocked[args[1]]) do
 		umsg.Start("FPP_blockedlist", ply)
 			umsg.String(args[1])
-			umsg.String(v)
+			umsg.String(k)
 		umsg.End()
 	end
 end
 concommand.Add("FPP_sendblocked", SendBlocked)
 
 local function SendBlockedModels(ply, cmd, args)
-	--I don't need an admin check here since people should be able to find out without having admin
+	ply.FPPUmsg2 = ply.FPPUmsg2 or 0
+	if ply.FPPUmsg2 > CurTime() - 10 then return end
+	ply.FPPUmsg2 = CurTime()
+
 	local i = 0
 	for k,v in pairs(FPP.BlockedModels) do
 		timer.Simple(i*0.01, function()
@@ -597,6 +590,10 @@ end
 concommand.Add("FPP_sendblockedmodels", SendBlockedModels)
 
 local function SendRestrictedTools(ply, cmd, args)
+	ply.FPPUmsg3 = ply.FPPUmsg3 or 0
+	if ply.FPPUmsg3 > CurTime() - 5 then return end
+	ply.FPPUmsg3 = CurTime()
+
 	if not args[1] then return end
 	umsg.Start("FPP_RestrictedToolList", ply)
 		umsg.String(args[1])
@@ -634,7 +631,8 @@ local function CleanupDisconnected(ply, cmd, args)
 	if not args[1] then FPP.Notify(ply, "Invalid argument", false) return end
 	if args[1] == "disconnected" then
 		for k,v in pairs(ents.GetAll()) do
-			if v.Owner and not IsValid(v.Owner) then
+			local Owner = v:CPPIGetOwner()
+			if Owner and not IsValid(Owner) then
 				v:Remove()
 			end
 		end
@@ -646,7 +644,8 @@ local function CleanupDisconnected(ply, cmd, args)
 	end
 
 	for k,v in pairs(ents.GetAll()) do
-		if v.Owner == Player(args[1]) and not v:IsWeapon() then
+		local Owner = v:CPPIGetOwner()
+		if Owner == Player(args[1]) and not v:IsWeapon() then
 			v:Remove()
 		end
 	end
@@ -668,6 +667,7 @@ local function SetToolRestrict(ply, cmd, args)
 
 		--Save to database!
 		DB.Query("REPLACE INTO FPP_TOOLADMINONLY VALUES("..sql.SQLStr(toolname)..", "..sql.SQLStr(args[3])..");")
+		FPP.NotifyAll(((ply.Nick and ply:Nick()) or "Console") .. " changed the admin status of " .. toolname , true)
 	elseif RestrictWho == "team" then
 		FPP.RestrictedTools[toolname]["team"] = FPP.RestrictedTools[toolname]["team"] or {}
 		if teamtoggle == 0 then
@@ -682,8 +682,10 @@ local function SetToolRestrict(ply, cmd, args)
 		end--Remove from the table if it's in there AND it's 0 otherwise do nothing
 
 		if tobool(teamtoggle) then -- if the team restrict is enabled
+			FPP.NotifyAll(((ply.Nick and ply:Nick()) or "Console") .. " restricted " .. toolname .. " to certain teams", true)
 			DB.Query("REPLACE INTO FPP_TOOLTEAMRESTRICT VALUES("..sql.SQLStr(toolname) ..", "..tonumber(args[3])..");")
 		else -- otherwise if the restriction for the team is being removed
+			FPP.NotifyAll(((ply.Nick and ply:Nick()) or "Console") .. " removed teamrestrictions from " .. toolname, true)
 			DB.Query("DELETE FROM FPP_TOOLTEAMRESTRICT WHERE toolname = "..sql.SQLStr(toolname).. " AND team = ".. tonumber(args[3]))
 		end
 	end
@@ -745,12 +747,10 @@ function FPP.Init()
 		RetrieveSettings()
 end
 
-hook.Add("InitPostEntity", "FPP_LoadSQL", function()
-	timer.Simple(2, function()
-		if not FPP_MySQLConfig or not FPP_MySQLConfig.EnableMySQL then
-			FPP.Init()
-		end
-	end)
+timer.Simple(2, function()
+	if not FPP_MySQLConfig or not FPP_MySQLConfig.EnableMySQL then
+		FPP.Init()
+	end
 end)
 
 local assbackup = ASS_RegisterPlugin -- Suddenly after witing this code, ASS spamprotection and propprotection broke. I have no clue why. I guess you should use FPP then

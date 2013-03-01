@@ -177,6 +177,9 @@ function meta:NewData()
 	timer.Simple(5, function()
 		if not IsValid(self) then return end
 		self:RestorePlayerData()
+		if GetConVarNumber("DarkRP_Lockdown") == 1 then
+			RunConsoleCommand("DarkRP_Lockdown", 1) -- so new players who join know there's a lockdown
+		end
 	end)
 
 	self:InitiateTax()
@@ -206,14 +209,14 @@ end
  Teams/jobs
  ---------------------------------------------------------*/
 function meta:ChangeTeam(t, force)
+	local prevTeam = self:Team()
+
 	if self:isArrested() and not force then
 		GAMEMODE:Notify(self, 1, 4, string.format(LANGUAGE.unable, team.GetName(t), ""))
 		return false
 	end
 
-	self:SetSelfDarkRPVar("helpBoss",false)
-	self:SetSelfDarkRPVar("helpCop",false)
-	self:SetSelfDarkRPVar("helpMayor",false)
+	self:SetDarkRPVar("agenda", nil)
 
 	if t ~= TEAM_CITIZEN and not self:ChangeAllowed(t) and not force then
 		GAMEMODE:Notify(self, 1, 4, string.format(LANGUAGE.unable, team.GetName(t), "banned/demoted"))
@@ -236,7 +239,7 @@ function meta:ChangeTeam(t, force)
 	end
 
 
-	if self:Team() == t then
+	if prevTeam == t then
 		GAMEMODE:Notify(self, 1, 4, string.format(LANGUAGE.unable, team.GetName(t), ""))
 		return false
 	end
@@ -245,15 +248,15 @@ function meta:ChangeTeam(t, force)
 	if not TEAM then return false end
 
 	if TEAM.customCheck and not TEAM.customCheck(self) then
-		GAMEMODE:Notify(self, 1, 4, string.format(LANGUAGE.unable, team.GetName(t), ""))
+		GAMEMODE:Notify(self, 1, 4, TEAM.CustomCheckFailMsg or string.format(LANGUAGE.unable, team.GetName(t), ""))
 		return false
 	end
 
 	if not self.DarkRPVars["Priv"..TEAM.command] and not force then
-		if type(TEAM.NeedToChangeFrom) == "number" and self:Team() ~= TEAM.NeedToChangeFrom then
+		if type(TEAM.NeedToChangeFrom) == "number" and prevTeam ~= TEAM.NeedToChangeFrom then
 			GAMEMODE:Notify(self, 1,4, string.format(LANGUAGE.need_to_be_before, team.GetName(TEAM.NeedToChangeFrom), TEAM.name))
 			return false
-		elseif type(TEAM.NeedToChangeFrom) == "table" and not table.HasValue(TEAM.NeedToChangeFrom, self:Team()) then
+		elseif type(TEAM.NeedToChangeFrom) == "table" and not table.HasValue(TEAM.NeedToChangeFrom, prevTeam) then
 			local teamnames = ""
 			for a,b in pairs(TEAM.NeedToChangeFrom) do teamnames = teamnames.." or "..team.GetName(b) end
 			GAMEMODE:Notify(self, 1,4, string.format(string.sub(teamnames, 5), team.GetName(TEAM.NeedToChangeFrom), TEAM.name))
@@ -267,13 +270,13 @@ function meta:ChangeTeam(t, force)
 	end
 
 	if TEAM.PlayerChangeTeam then
-		local val = TEAM.PlayerChangeTeam(self, self:Team(), t)
+		local val = TEAM.PlayerChangeTeam(self, prevTeam, t)
 		if val ~= nil then
 			return val
 		end
 	end
 
-	if self:Team() == TEAM_MAYOR and tobool(GetConVarNumber("DarkRP_LockDown")) then
+	if prevTeam == TEAM_MAYOR and tobool(GetConVarNumber("DarkRP_LockDown")) then
 		GAMEMODE:UnLockdown(self)
 	end
 	self:UpdateJob(TEAM.name)
@@ -287,14 +290,6 @@ function meta:ChangeTeam(t, force)
 	end
 
 	self.LastJob = CurTime()
-
-	if t == TEAM_POLICE then
-		self:SetSelfDarkRPVar("helpCop", true)
-	elseif t == TEAM_MOB then
-		self:SetSelfDarkRPVar("helpBoss", true)
-	elseif t == TEAM_MAYOR then
-		self:SetSelfDarkRPVar("helpMayor", true)
-	end
 
 	if GAMEMODE.Config.removeclassitems then
 		for k, v in pairs(ents.FindByClass("microwave")) do
@@ -315,7 +310,7 @@ function meta:ChangeTeam(t, force)
 		end
 	end
 
-	if self:Team() == TEAM_MAYOR then
+	if prevTeam == TEAM_MAYOR then
 		for _, ent in pairs(self.lawboards or {}) do
 			if IsValid(ent) then
 				ent:Remove()
@@ -340,6 +335,11 @@ function meta:ChangeTeam(t, force)
 	else
 		self:KillSilent()
 	end
+
+	umsg.Start("OnChangedTeam", self)
+		umsg.Short(prevTeam)
+		umsg.Short(t)
+	umsg.End()
 	return true
 end
 
@@ -579,6 +579,7 @@ function meta:DropDRPWeapon(weapon)
 		if not found then return end
 	end
 
+	local ammo = self:GetAmmoCount(weapon:GetPrimaryAmmoType())
 	self:DropWeapon(weapon) -- Drop it so the model isn't the viewmodel
 
 	local ent = ents.Create("spawned_weapon")
@@ -592,6 +593,7 @@ function meta:DropDRPWeapon(weapon)
 	ent.nodupe = true
 	ent.clip1 = weapon:Clip1()
 	ent.clip2 = weapon:Clip2()
+	ent.ammo = ammo
 
 	ent:Spawn()
 

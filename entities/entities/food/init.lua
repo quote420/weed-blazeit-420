@@ -36,6 +36,7 @@ function ENT:Use(activator,caller)
 		caller:SetSelfDarkRPVar("Energy", math.Clamp(caller.DarkRPVars.Energy + 100, 0, 100))
 		umsg.Start("AteFoodIcon", caller)
 		umsg.End()
+		caller:SetHealth(caller:Health() + (100 - caller:Health()))
 	end
 	self:Remove()
 end

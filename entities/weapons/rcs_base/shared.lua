@@ -46,7 +46,7 @@ if (SERVER) then
 end
 
 if ( CLIENT ) then
-	SWEP.PrintName			= "ch33t_awP BETA"
+	SWEP.PrintName			= "RCS Base"
 	SWEP.Author				= "cheesylard"
 	SWEP.DrawAmmo			= true
 	SWEP.DrawCrosshair		= false
@@ -66,11 +66,12 @@ end
 SWEP.StrobePace				= 1.1 --frequency of that going in and out for the selection icon, lower for faster, higher for slower
 
 SWEP.Category				= "RealCS"
+SWEP.ReloadSound			= "weapons/smg1/smg1_reload.wav" 
 
 SWEP.HoldType				= "ar2"
 
 SWEP.Spawnable				= false
-SWEP.AdminSpawnable			= true
+SWEP.AdminSpawnable			= false
 
 SWEP.ViewModel				= "models/weapons/v_snip_awp.mdl"
 SWEP.WorldModel				= "models/weapons/w_snip_awp.mdl"
@@ -89,12 +90,12 @@ SWEP.ShellEjectAttachment	= "2"
 
 SWEP.Primary.Sound			= Sound( "Weapon_AWP.Single" )
 SWEP.Primary.Recoil			= 0.5
-SWEP.Primary.Damage			= 100000000000
-SWEP.Primary.NumShots		= 8
-SWEP.Primary.Cone			= 0.01
-SWEP.Primary.ClipSize		= -1 --set to -1 for INFINATE AMMO BABY!!!!!!!!!!!
-SWEP.Primary.Delay			= 0.12
-SWEP.Primary.DefaultClip	= -1
+SWEP.Primary.Damage			= 0
+SWEP.Primary.NumShots		= 1
+SWEP.Primary.Cone			= 999
+SWEP.Primary.ClipSize		= 999 --set to -1 for INFINATE AMMO BABY!!!!!!!!!!!
+SWEP.Primary.Delay			= 9999
+SWEP.Primary.DefaultClip	= 999
 SWEP.Primary.Automatic		= true
 SWEP.Primary.Ammo			= "none"
 SWEP.CrossHairIronsight		= false
@@ -184,8 +185,8 @@ function SWEP:DefaultDeploy(delay, d)
 end
 
 function SWEP:Initialize() 
+ 	self:SetWeaponHoldType( self.HoldType )
 	if ( SERVER ) then 
- 		self:SetWeaponHoldType( self.HoldType ) 
  		self:SetNPCMinBurst( 30 ) 
  		self:SetNPCMaxBurst( 30 ) 
  		self:SetNPCFireRate( 0.01 ) 

@@ -7,7 +7,7 @@ if SERVER then
 end
 
 if ( CLIENT ) then
-	SWEP.PrintName			= "FN Five-seven"	
+	SWEP.PrintName			= "Fiveseven"	
 	SWEP.Author				= "cheesylard"
 	SWEP.Slot				= 1
 	SWEP.SlotPos			= 2

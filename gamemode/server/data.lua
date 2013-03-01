@@ -7,11 +7,11 @@ if RP_MySQLConfig.EnableMySQL then
 	require("mysqloo")
 end
 
-local CONNECTED_TO_MYSQL = false
+DB.CONNECTED_TO_MYSQL = false
 DB.MySQLDB = nil
 
 function DB.Begin()
-	if not CONNECTED_TO_MYSQL then
+	if not DB.CONNECTED_TO_MYSQL then
 		sql.Begin()
 	else
 		DB.Query("START TRANSACTION")
@@ -19,20 +19,16 @@ function DB.Begin()
 end
 
 function DB.Commit()
-	if not CONNECTED_TO_MYSQL then
+	if not DB.CONNECTED_TO_MYSQL then
 		sql.Commit()
 	else
 		DB.Query("COMMIT")
 	end
 end
 
-function DB.Query(query, callback)
-	if CONNECTED_TO_MYSQL then
-		if DB.MySQLDB and DB.MySQLDB:status() == mysqloo.DATABASE_NOT_CONNECTED then
-			DB.ConnectToMySQL(RP_MySQLConfig.Host, RP_MySQLConfig.Username, RP_MySQLConfig.Password, RP_MySQLConfig.Database_name, RP_MySQLConfig.Database_port)
-		end
-
-		local query = DB.MySQLDB:query(query)
+function DB.Query(sqlText, callback)
+	if DB.CONNECTED_TO_MYSQL then
+		local query = DB.MySQLDB:query(sqlText)
 		local data
 		query.onData = function(Q, D)
 			data = data or {}
@@ -40,11 +36,17 @@ function DB.Query(query, callback)
 		end
 
 		query.onError = function(Q, E)
-			ErrorNoHalt(E)
+			if (DB.MySQLDB:status() == mysqloo.DATABASE_NOT_CONNECTED) then
+				table.insert(DB.cachedQueries, {sqlText, callback, false})
+				return
+			end
+
 			if callback then
 				callback()
 			end
+
 			DB.Log("MySQL Error: ".. E)
+			ErrorNoHalt(E)
 		end
 
 		query.onSuccess = function()
@@ -54,19 +56,15 @@ function DB.Query(query, callback)
 		return
 	end
 
-	local Result = sql.Query(query)
+	local Result = sql.Query(sqlText)
 
 	if callback then callback(Result) end
 	return Result
 end
 
-function DB.QueryValue(query, callback)
-	if CONNECTED_TO_MYSQL then
-		if DB.MySQLDB and DB.MySQLDB:status() == mysqloo.DATABASE_NOT_CONNECTED then
-			DB.ConnectToMySQL(RP_MySQLConfig.Host, RP_MySQLConfig.Username, RP_MySQLConfig.Password, RP_MySQLConfig.Database_name, RP_MySQLConfig.Database_port)
-		end
-
-		local query = DB.MySQLDB:query(query)
+function DB.QueryValue(sqlText, callback)
+	if DB.CONNECTED_TO_MYSQL then
+		local query = DB.MySQLDB:query(sqlText)
 		local data
 		query.onData = function(Q, D)
 			data = D
@@ -78,12 +76,23 @@ function DB.QueryValue(query, callback)
 			end
 			callback()
 		end
-		query.onError = function(Q, E) callback() DB.Log("MySQL Error: ".. E) ErrorNoHalt(E) end
+		query.onError = function(Q, E)
+			if (DB.MySQLDB:status() == mysqloo.DATABASE_NOT_CONNECTED) then
+				table.insert(DB.cachedQueries, {sqlText, callback, true})
+				return
+			end
+
+			callback()
+
+			DB.Log("MySQL Error: ".. E)
+			ErrorNoHalt(E)
+		end
+
 		query:start()
 		return
 	end
 
-	local val = sql.QueryValue(query)
+	local val = sql.QueryValue(sqlText)
 
 	if callback then callback(val) end
 	return val
@@ -93,14 +102,32 @@ function DB.ConnectToMySQL(host, username, password, database_name, database_por
 	if not mysqloo then DB.Log("MySQL Error: MySQL modules aren't installed properly!") Error("MySQL modules aren't installed properly!") end
 	local databaseObject = mysqloo.connect(host, username, password, database_name, database_port)
 
-	databaseObject.onConnectionFailed = function(msg)
+	if timer.Exists("darkrp_check_mysql_status") then timer.Destroy("darkrp_check_mysql_status") end
+
+	databaseObject.onConnectionFailed = function(_, msg)
 		DB.Log("MySQL Error: Connection failed! "..tostring(msg))
 		Error("Connection failed! " ..tostring(msg))
 	end
 
 	databaseObject.onConnected = function()
 		DB.Log("MySQL: Connection to external database "..host.." succeeded!")
-		CONNECTED_TO_MYSQL = true
+		DB.CONNECTED_TO_MYSQL = true
+		if DB.cachedQueries then
+			for _, v in pairs(DB.cachedQueries) do
+				if v[3] then
+					DB.QueryValue(v[1], v[2])
+				else
+					DB.Query(v[1], v[2])
+				end
+			end
+		end
+		DB.cachedQueries = {}
+
+		timer.Create("darkrp_check_mysql_status", 60, 0, function()
+			if (DB.MySQLDB and DB.MySQLDB:status() == mysqloo.DATABASE_NOT_CONNECTED) then
+				DB.ConnectToMySQL(RP_MySQLConfig.Host, RP_MySQLConfig.Username, RP_MySQLConfig.Password, RP_MySQLConfig.Database_name, RP_MySQLConfig.Database_port)
+			end
+		end)
 
 		DB.Init() -- Initialize database
 	end
@@ -115,7 +142,7 @@ function DB.Init()
 	local map = SQLStr(string.lower(game.GetMap()))
 	DB.Begin()
 		-- Gotta love the difference between SQLite and MySQL
-		local AUTOINCREMENT = CONNECTED_TO_MYSQL and "AUTO_INCREMENT" or "AUTOINCREMENT"
+		local AUTOINCREMENT = DB.CONNECTED_TO_MYSQL and "AUTO_INCREMENT" or "AUTOINCREMENT"
 
 		-- Create the table for the convars used in DarkRP
 		DB.Query([[
@@ -213,7 +240,7 @@ function DB.Init()
 		-- For now it's deletion only, since updating of the common attribute doesn't happen.
 
 		-- MySQL trigger
-		if CONNECTED_TO_MYSQL then
+		if DB.CONNECTED_TO_MYSQL then
 			DB.Query("show triggers", function(data)
 				-- Check if the trigger exists first
 				if data then
@@ -241,7 +268,7 @@ function DB.Init()
 						CREATE TRIGGER JobPositionFKDelete
 							AFTER DELETE ON darkrp_position
 							FOR EACH ROW
-								IF OLD.type = "J" THEN
+								IF OLD.type = "T" THEN
 									DELETE FROM darkrp_jobspawn WHERE darkrp_jobspawn.id = OLD.id;
 								ELSEIF OLD.type = "C" THEN
 									DELETE FROM darkrp_console WHERE darkrp_console.id = OLD.id;
@@ -255,7 +282,7 @@ function DB.Init()
 				CREATE TRIGGER IF NOT EXISTS JobPositionFKDelete
 					AFTER DELETE ON darkrp_position
 					FOR EACH ROW
-					WHEN OLD.type = "J"
+					WHEN OLD.type = "T"
 					BEGIN
 						DELETE FROM darkrp_jobspawn WHERE darkrp_jobspawn.id = OLD.id;
 					END;
@@ -276,7 +303,7 @@ function DB.Init()
 	-- Update older version of database to the current database
 	-- Only run when one of the older tables exist
 	local updateQuery = [[SELECT name FROM sqlite_master WHERE type="table" AND name="darkrp_cvars";]]
-	if CONNECTED_TO_MYSQL then
+	if DB.CONNECTED_TO_MYSQL then
 		updateQuery = [[show tables like "darkrp_cvars";]]
 	end
 
@@ -333,7 +360,7 @@ function DB.Init()
 		DB.TeamSpawns = data
 	end)
 
-	if CONNECTED_TO_MYSQL then -- In a listen server, the connection with the external database is often made AFTER the listen server host has joined,
+	if DB.CONNECTED_TO_MYSQL then -- In a listen server, the connection with the external database is often made AFTER the listen server host has joined,
 								--so he walks around with the settings from the SQLite database
 		for k,v in pairs(player.GetAll()) do
 			local UniqueID = sql.SQLStr(v:UniqueID())
@@ -565,10 +592,12 @@ end
 
 function DB.StoreTeamSpawnPos(t, pos)
 	local map = string.lower(game.GetMap())
-	DB.Query([[DELETE FROM darkrp_position WHERE type = "T" AND map = ]] .. sql.SQLStr(map) .. [[;]])
+
+	DB.Query([[DELETE FROM darkrp_position WHERE map = ]] .. sql.SQLStr(map) .. [[ AND id IN (SELECT id FROM darkrp_jobspawn WHERE team = ]] .. t .. [[)]])
+
 	DB.Query([[INSERT INTO darkrp_position VALUES(NULL, ]] .. sql.SQLStr(map) .. [[, "T", ]] .. pos[1] .. [[, ]] .. pos[2] .. [[, ]] .. pos[3] .. [[);]]
 		, function()
-		DB.QueryValue([[SELECT id FROM darkrp_position WHERE map = ]] .. sql.SQLStr(map) .. [[ AND type = "T";]], function(id)
+		DB.QueryValue([[SELECT MAX(id) FROM darkrp_position WHERE map = ]] .. sql.SQLStr(map) .. [[ AND type = "T";]], function(id)
 			if not id then return end
 			DB.Query([[INSERT INTO darkrp_jobspawn VALUES(]] .. id .. [[, ]] .. t .. [[);]])
 			table.insert(DB.TeamSpawns, {id = id, map = map, x = pos[1], y = pos[2], z = pos[3], team = t})
