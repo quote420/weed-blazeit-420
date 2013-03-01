@@ -524,6 +524,9 @@ function GM:JobsTab()
 				if v.customCheck and not v.customCheck(LocalPlayer()) then
 					nodude = false
 				end
+				if v.hidden then
+					nodude = false
+				end
 
 				if (type(v.NeedToChangeFrom) == "number" and LocalPlayer():Team() ~= v.NeedToChangeFrom) or (type(v.NeedToChangeFrom) == "table" and not table.HasValue(v.NeedToChangeFrom, LocalPlayer():Team())) then
 					nodude = false

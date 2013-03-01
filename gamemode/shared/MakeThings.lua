@@ -2,7 +2,7 @@
 local blockTypes = {"Physgun1", "Spawning1", "Toolgun1"}
 
 RPExtraTeams = {}
-function AddExtraTeam(Name, colorOrTable, model, Description, Weapons, command, maximum_amount_of_this_class, Salary, admin, Vote, Haslicense, NeedToChangeFrom, CustomCheck)
+function AddExtraTeam(Name, colorOrTable, model, Description, Weapons, command, maximum_amount_of_this_class, Salary, admin, Vote, Haslicense, NeedToChangeFrom, CustomCheck, hidden)
 	local tableSyntaxUsed = colorOrTable.r == nil -- the color is not a color table.
 
 	if not Name or not colorOrTable or not tableSyntaxUsed and (not model or not Description or
@@ -17,7 +17,7 @@ function AddExtraTeam(Name, colorOrTable, model, Description, Weapons, command, 
 	local CustomTeam = tableSyntaxUsed and colorOrTable or
 		{color = colorOrTable, model = model, description = Description, weapons = Weapons, command = command,
 			max = maximum_amount_of_this_class, salary = Salary, admin = admin or 0, vote = tobool(Vote), hasLicense = Haslicense,
-			NeedToChangeFrom = NeedToChangeFrom, customCheck = CustomCheck
+			NeedToChangeFrom = NeedToChangeFrom, customCheck = CustomCheck, hidden = hidden
 		}
 	CustomTeam.name = Name
 
