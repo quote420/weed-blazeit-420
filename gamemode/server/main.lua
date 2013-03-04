@@ -1633,7 +1633,7 @@ end
 function GM:Lockdown(ply)
 	if not lstat and ply:Team() == TEAM_MAYOR then
 		for k,v in pairs(player.GetAll()) do
-			v:ConCommand("play npc/overwatch/cityvoice/f_confirmcivilstatus_1_spkr.wav\n")
+			v:ConCommand("play npc/overwatch/cityvoice/f_unrestprocedure1_spkr.wav\n")
 		end
 		lstat = true
 		GAMEMODE:PrintMessageAll(HUD_PRINTTALK , LANGUAGE.lockdown_started)
