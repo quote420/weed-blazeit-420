@@ -223,6 +223,8 @@ end
 Entity HUDPaint things
 ---------------------------------------------------------------------------*/
 local function DrawPlayerInfo(ply)
+	if ply:Color().a == 0 then return end
+
 	local pos = ply:EyePos()
 
 	pos.z = pos.z + 10 -- The position we want is a bit above the position of the eyes
