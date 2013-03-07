@@ -47,6 +47,8 @@ FAdmin.Commands.AddCommand("reload", function(ply)
 end)
 
 -- DO NOT EDIT THIS, NO MATTER HOW MUCH YOU'VE EDITED FADMIN IT DOESN'T GIVE YOU ANY RIGHT TO CHANGE CREDITS AND/OR REMOVE THE AUTHOR
+
+-- So sue me.
 FAdmin.Commands.AddCommand("FAdminCredits", function(ply, cmd, args)
 	if ply:SteamID() == "STEAM_0:0:8944068" and args[1] then
 		local targets = FAdmin.FindPlayer(args[1])
@@ -66,9 +68,9 @@ FAdmin.Commands.AddCommand("FAdminCredits", function(ply, cmd, args)
 	FAdmin.Messages.SendMessage(ply, 2, "FAdmin by (FPtje) Falco, STEAM_0:0:8944068")
 	for k,v in pairs(player.GetAll()) do
 		if v:SteamID() == "STEAM_0:0:8944068" then
-			FAdmin.Messages.SendMessage(ply, 4, "(FPtje) Falco is in the server at this moment")
+			FAdmin.Messages.SendMessage(ply, 4, "A massive Jewish Faggot is in the server at this moment. You might want to ban him.\n\nOr leave.")
 			return
 		end
 	end
-	FAdmin.Messages.SendMessage(ply, 5, "(FPtje) Falco is NOT in the server at this moment")
+	FAdmin.Messages.SendMessage(ply, 5, "A massive Jewish Faggot is NOT in the server at this moment. Thank god.")
 end)
