@@ -94,7 +94,7 @@ function SWEP:PrimaryAttack()
 		return
 	end
 
-	if IsValid(trace.Entity) and trace.Entity:IsPlayer() and trace.Entity:Team().unarrestable == true then
+	if IsValid(trace.Entity) and trace.Entity:IsPlayer() and (trace.Entity:Team().unarrestable == true) then
 		GAMEMODE:Notify(self.Owner, 1, 5, "You cannot arrest an unarrestable class!")
 		return
 	end
