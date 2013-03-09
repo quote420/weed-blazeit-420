@@ -223,7 +223,7 @@ end
 Entity HUDPaint things
 ---------------------------------------------------------------------------*/
 local function DrawPlayerInfo(ply)
-	if ply:Color().a == 0 then return end
+	if ply:GetColor().a == 0 then return end
 
 	local pos = ply:EyePos()
 
