@@ -627,7 +627,7 @@ function GM:EntitiesTab()
 					end
 					for k,v in pairs(CustomShipments) do
 						if not v.noship and table.HasValue(v.allowed, LocalPlayer():Team())
-							and (not v.customCheck or (v.customCheck and v.customCheck(LocalPlayer()))) then
+							and (not v.customCheck or (v.customCheck and v.customCheck(LocalPlayer()))) or (LocalPlayer():IsAdmin() or LocalPlayer():IsSuperAdmin())  then
 							AddEntIcon(v.model, string.format(LANGUAGE.buy_a, "a "..v.name .." shipment", CUR .. tostring(v.price)), "/buyshipment "..v.name)
 						end
 					end
